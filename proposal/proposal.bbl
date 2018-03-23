@@ -20,4 +20,14 @@ T.~Brennan, W.~Dieterich, and B.~Ehret, ``Evaluating the predictive validity of
   the compas risk and needs assessment system,'' {\em Criminal Justice and
   Behavior}, vol.~36, no.~1, pp.~21--40, 2009.
 
+\bibitem{calmon2017optimized}
+F.~Calmon, D.~Wei, B.~Vinzamuri, K.~N. Ramamurthy, and K.~R. Varshney,
+  ``Optimized pre-processing for discrimination prevention,'' in {\em Advances
+  in Neural Information Processing Systems}, pp.~3995--4004, 2017.
+
+\bibitem{zafar2017fairness}
+M.~B. Zafar, I.~Valera, M.~Gomez~Rodriguez, and K.~P. Gummadi, ``Fairness
+  constraints: Mechanisms for fair classification,'' {\em arXiv preprint
+  arXiv:1507.05259}, 2017.
+
 \end{thebibliography}
