@@ -19,20 +19,30 @@
 \section{Abstract}
 As more machine learning applications are being trusted with making decisions that directly or indirectly affect human lives, the potential lack of fairness or discriminatory decisions have become a growing concern within the machine learning community.
 
-\section{Introduction}
+\section{Introduction} \label{sec:intro}
 Machine learning is no longer an esoteric subject. Over the past decade, due to its ease of implementation and reliable high accuracy, it has been adopted in a verity of diverse fields such as finance  \cite{huang2007credit, tsai2008using, galindo2000credit}, crime prediction \cite{brennan2009evaluating} and so on. Decision making in these areas has legal, moral and ethical implications all of which should be considered while aiming for increasing prediction accuracy.
 
 Interest in non-discriminatory AI has been increasing not only due to moral reasons, but also due to numerous anti-discriminatory laws in many countries. Discrimination is the prejudicial treatment of an individual based on membership in a legally protected group such as a race or gender \cite{calmon2017optimized}. These laws typically evaluate the fairness of a decision making process by means of two distinct notions: \textbf{disparate treatment} and \textbf{disparate impact} \cite{zafar2017fairness}. Disparate treatment occurs when protected attributes are used explicitly in making decisions, also known as direct discrimination. More pervasive nowadays is disparate impact, in which protected attributes are not used but reliance on variables correlated with them leads to significantly different outcomes for different groups. This can also be labled as indirect discrimination. Indirect discrimination may be intentional, as in the historical practice of \textit{redlining} in the U.S. in which home mortgages were denied in zip codes populated primarily by minorities. However, the doctrine of disparate impact applies regardless of actual intent \cite{calmon2017optimized}.
 
-\section{Background}
+\section{Background and Related Work}
+A growing number of researchers has been recently exploiting fairness in AI \cite{calmon2017optimized, zafar2017fairness, kusner2017counterfactual, pleiss2017fairness, chiappa2018path, dwork2017decoupled, russell2017worlds, zhang2018fairness}. Each of these papers tend to address fairness by focusing on one or more of the components in a machine learning algorithm's pipeline (pre-, in- and post-processing). Overall, they tend to decrease the impact of the inherited biases in the dataset by sacrificing some accuracy with respect to a certain definition of fairness.
 
+Since this proposal focuses on different definition of fairness, a background of well-known definitions is necessary in order to explain the intentions of this work. As discussed in section \ref{sec:intro}, discrimination occurs with respect to certain features/attributes, which we will refer to as protected features, denoted by $A$. In addition, let $X$ denote other observable attributes of a given record, $U$ the set of relevant latent attributes, which are not directly observed. The goal of the machine learning algorithm will be predicting $Y$. Thus, $\hat{Y}$ is the predictor which depends on all of the attributes $A$, $X$ and $U$.
 
-\section{Related Work}
-Exploiting fairness in AI has been gaining attention. There are 
+Kusner et al. \cite{kusner2017counterfactual} summarized existing definitions of fairness into fairness through unawareness \cite{grgic2016case}, individual fairness \cite{dwork2012fairness, joseph2016rawlsian, louizos2015variational}, demographic parity/disparate impact \cite{zafar2017fairness}, and equality of opportunity \cite{hardt2016equality, zafar2017fairnessbeyond}.
+
+\textbf{\textit{Fairness through unawareness (FTU)}} suggests that for an algorithm to be fair, it may not explicitly use any of the protected feature $A$. This directly addresses disparate treatment and it was initially proposed as a baseline approach. It was shown later that in certain cases it may actually lead to a decrease in fairness \cite{kusner2017counterfactual}.
+
+\textbf{\textit{Individual Fairness (IF)}} proposes that an algorithm is fair if it gives similar prediction to similar individuals based on a given similarity metric $d(., .)$. Thus if individuals $a$ and $b$ are similar, then $\hat{Y}(X^a, A^a) \approx \hat{Y}(X^b, A^b)$. This is more complicated to implement as interpret as well since the definition depends heavily on the similarity metric as well as how close the similar individuals' predictions must be.
+
+\textbf{\textit{Demographic Parity (DP)}}. A predictor $\hat{Y}$ satisfies demographic parity if $P(\hat{Y} | A = 0) = P(\hat{Y} | A = 1)$, assuming $A$ is binary for simplicity \cite{kusner2017counterfactual}.
+
+\textbf{\textit{Equality of Opportunity (EO)}}. A predictor $\hat{Y}$ satisfies equality of opportunity if $P(\hat{Y} = 1 | A = 0, Y = 1) = P(\hat{Y} = 1 | A = 1 , Y = 1)$, assuming $A$ is binary for simplicity \cite{kusner2017counterfactual}.
 
 \section{Proposed Activities}
 
 \section{Expected outcomes and Deliverables}
+ 
  
 \bibliographystyle{ieeetr}
 \bibliography{proposal} 

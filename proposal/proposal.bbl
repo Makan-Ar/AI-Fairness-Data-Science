@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{huang2007credit}
 C.-L. Huang, M.-C. Chen, and C.-J. Wang, ``Credit scoring with a data mining
@@ -29,5 +29,64 @@ F.~Calmon, D.~Wei, B.~Vinzamuri, K.~N. Ramamurthy, and K.~R. Varshney,
 M.~B. Zafar, I.~Valera, M.~Gomez~Rodriguez, and K.~P. Gummadi, ``Fairness
   constraints: Mechanisms for fair classification,'' {\em arXiv preprint
   arXiv:1507.05259}, 2017.
+
+\bibitem{kusner2017counterfactual}
+M.~J. Kusner, J.~Loftus, C.~Russell, and R.~Silva, ``Counterfactual fairness,''
+  in {\em Advances in Neural Information Processing Systems}, pp.~4069--4079,
+  2017.
+
+\bibitem{pleiss2017fairness}
+G.~Pleiss, M.~Raghavan, F.~Wu, J.~Kleinberg, and K.~Q. Weinberger, ``On
+  fairness and calibration,'' in {\em Advances in Neural Information Processing
+  Systems}, pp.~5684--5693, 2017.
+
+\bibitem{chiappa2018path}
+S.~Chiappa and T.~P. Gillam, ``Path-specific counterfactual fairness,'' {\em
+  arXiv preprint arXiv:1802.08139}, 2018.
+
+\bibitem{dwork2017decoupled}
+C.~Dwork, N.~Immorlica, A.~T. Kalai, and M.~Leiserson, ``Decoupled classifiers
+  for fair and efficient machine learning,'' {\em arXiv preprint
+  arXiv:1707.06613}, 2017.
+
+\bibitem{russell2017worlds}
+C.~Russell, M.~J. Kusner, J.~Loftus, and R.~Silva, ``When worlds collide:
+  integrating different counterfactual assumptions in fairness,'' in {\em
+  Advances in Neural Information Processing Systems}, pp.~6417--6426, 2017.
+
+\bibitem{zhang2018fairness}
+J.~Zhang and E.~Bareinboim, ``Fairness in decision-making--the causal
+  explanation formula,'' in {\em Proceedings of the 32nd AAAI Conference on
+  Artificial Intelligence}, 2018.
+
+\bibitem{grgic2016case}
+N.~Grgic-Hlaca, M.~B. Zafar, K.~P. Gummadi, and A.~Weller, ``The case for
+  process fairness in learning: Feature selection for fair decision making,''
+  in {\em NIPS Symposium on Machine Learning and the Law}, vol.~1, p.~2, 2016.
+
+\bibitem{dwork2012fairness}
+C.~Dwork, M.~Hardt, T.~Pitassi, O.~Reingold, and R.~Zemel, ``Fairness through
+  awareness,'' in {\em Proceedings of the 3rd innovations in theoretical
+  computer science conference}, pp.~214--226, ACM, 2012.
+
+\bibitem{joseph2016rawlsian}
+M.~Joseph, M.~Kearns, J.~Morgenstern, S.~Neel, and A.~Roth, ``Rawlsian fairness
+  for machine learning,'' {\em arXiv preprint arXiv:1610.09559}, 2016.
+
+\bibitem{louizos2015variational}
+C.~Louizos, K.~Swersky, Y.~Li, M.~Welling, and R.~Zemel, ``The variational fair
+  autoencoder,'' {\em arXiv preprint arXiv:1511.00830}, 2015.
+
+\bibitem{hardt2016equality}
+M.~Hardt, E.~Price, N.~Srebro, {\em et~al.}, ``Equality of opportunity in
+  supervised learning,'' in {\em Advances in neural information processing
+  systems}, pp.~3315--3323, 2016.
+
+\bibitem{zafar2017fairnessbeyond}
+M.~B. Zafar, I.~Valera, M.~Gomez~Rodriguez, and K.~P. Gummadi, ``Fairness
+  beyond disparate treatment \& disparate impact: Learning classification
+  without disparate mistreatment,'' in {\em Proceedings of the 26th
+  International Conference on World Wide Web}, pp.~1171--1180, International
+  World Wide Web Conferences Steering Committee, 2017.
 
 \end{thebibliography}
