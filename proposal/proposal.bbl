@@ -89,4 +89,22 @@ M.~B. Zafar, I.~Valera, M.~Gomez~Rodriguez, and K.~P. Gummadi, ``Fairness
   International Conference on World Wide Web}, pp.~1171--1180, International
   World Wide Web Conferences Steering Committee, 2017.
 
+\bibitem{Dua:2017}
+D.~Dheeru and E.~Karra~Taniskidou, ``{UCI} machine learning repository,'' 2017.
+
+\bibitem{moro2014data}
+S.~Moro, P.~Cortez, and P.~Rita, ``A data-driven approach to predict the
+  success of bank telemarketing,'' {\em Decision Support Systems}, vol.~62,
+  pp.~22--31, 2014.
+
+\bibitem{berk2017fairness}
+R.~Berk, H.~Heidari, S.~Jabbari, M.~Kearns, and A.~Roth, ``Fairness in criminal
+  justice risk assessments: the state of the art,'' {\em arXiv preprint
+  arXiv:1703.09207}, 2017.
+
+\bibitem{chouldechova2017fair}
+A.~Chouldechova, ``Fair prediction with disparate impact: A study of bias in
+  recidivism prediction instruments,'' {\em Big data}, vol.~5, no.~2,
+  pp.~153--163, 2017.
+
 \end{thebibliography}

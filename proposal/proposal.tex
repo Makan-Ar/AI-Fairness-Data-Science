@@ -11,39 +11,48 @@
 
 \begin{document}
 
-\title{Analyzing Fairness of Algorithms}
+\title{Exploring Definitions of Fairness in Machine Learning}
 \author{Anonymized Submission}
 \date{\today}
 \maketitle
 
 \section{Abstract}
-As more machine learning applications are being trusted with making decisions that directly or indirectly affect human lives, the potential lack of fairness or discriminatory decisions have become a growing concern within the machine learning community.
+As more machine learning applications are being trusted with making decisions that directly or indirectly affect human lives, the potential lack of fairness or discriminatory decisions have become a growing concern within the machine learning community. Researchers have been recently designing fair models which have been relatively successful in achieving a specific type of fairness, however the issue is that there is no unique and relatively easy way of measuring how fair a model is. There is no guarantee that a machine learning model is going to be deployed by an expert computer scientist who is capable of an in depth analysis on the fairness of the model. Thus, in this study we explore different definitions of fairness in machine learning and aim to design an easy to understand and easy to implement fairness metric which can be utilize in order to measure the fairness of a model given a particular dataset.
 
 \section{Introduction} \label{sec:intro}
-Machine learning is no longer an esoteric subject. Over the past decade, due to its ease of implementation and reliable high accuracy, it has been adopted in a verity of diverse fields such as finance  \cite{huang2007credit, tsai2008using, galindo2000credit}, crime prediction \cite{brennan2009evaluating} and so on. Decision making in these areas has legal, moral and ethical implications all of which should be considered while aiming for increasing prediction accuracy.
+Machine learning is no longer an esoteric subject. Over the past decade, due to its ease of implementation and reliable high accuracy, it has been adopted in a verity of diverse fields such as finance  \cite{huang2007credit, tsai2008using, galindo2000credit}, crime prediction \cite{brennan2009evaluating} and so on. Decision making in these areas has legal, moral and ethical implications, all of which should be considered while aiming for increasing prediction accuracy.
 
 Interest in non-discriminatory AI has been increasing not only due to moral reasons, but also due to numerous anti-discriminatory laws in many countries. Discrimination is the prejudicial treatment of an individual based on membership in a legally protected group such as a race or gender \cite{calmon2017optimized}. These laws typically evaluate the fairness of a decision making process by means of two distinct notions: \textbf{disparate treatment} and \textbf{disparate impact} \cite{zafar2017fairness}. Disparate treatment occurs when protected attributes are used explicitly in making decisions, also known as direct discrimination. More pervasive nowadays is disparate impact, in which protected attributes are not used but reliance on variables correlated with them leads to significantly different outcomes for different groups. This can also be labled as indirect discrimination. Indirect discrimination may be intentional, as in the historical practice of \textit{redlining} in the U.S. in which home mortgages were denied in zip codes populated primarily by minorities. However, the doctrine of disparate impact applies regardless of actual intent \cite{calmon2017optimized}.
 
-\section{Background and Related Work}
-A growing number of researchers has been recently exploiting fairness in AI \cite{calmon2017optimized, zafar2017fairness, kusner2017counterfactual, pleiss2017fairness, chiappa2018path, dwork2017decoupled, russell2017worlds, zhang2018fairness}. Each of these papers tend to address fairness by focusing on one or more of the components in a machine learning algorithm's pipeline (pre-, in- and post-processing). Overall, they tend to decrease the impact of the inherited biases in the dataset by sacrificing some accuracy with respect to a certain definition of fairness.
+\section{Background and Related Work} \label{sec:background}
+A growing number of researchers has been recently exploiting fairness in AI \cite{calmon2017optimized, zafar2017fairness, kusner2017counterfactual, pleiss2017fairness, chiappa2018path, dwork2017decoupled, russell2017worlds, zhang2018fairness}. Each of these papers tend to address fairness by focusing on one or more of the components in a machine learning model's pipeline (pre-, in- and post-processing). Overall, they tend to decrease the impact of the inherited biases in the dataset by sacrificing some accuracy with respect to a certain definition of fairness.
 
 Since this proposal focuses on different definition of fairness, a background of well-known definitions is necessary in order to explain the intentions of this work. As discussed in section \ref{sec:intro}, discrimination occurs with respect to certain features/attributes, which we will refer to as protected features, denoted by $A$. In addition, let $X$ denote other observable attributes of a given record, $U$ the set of relevant latent attributes, which are not directly observed. The goal of the machine learning algorithm will be predicting $Y$. Thus, $\hat{Y}$ is the predictor which depends on all of the attributes $A$, $X$ and $U$.
 
-Kusner et al. \cite{kusner2017counterfactual} summarized existing definitions of fairness into fairness through unawareness \cite{grgic2016case}, individual fairness \cite{dwork2012fairness, joseph2016rawlsian, louizos2015variational}, demographic parity/disparate impact \cite{zafar2017fairness}, and equality of opportunity \cite{hardt2016equality, zafar2017fairnessbeyond}.
+Kusner et al. \cite{kusner2017counterfactual} summarized existing definitions of fairness in the following manner. Fairness through unawareness \cite{grgic2016case}, individual fairness \cite{dwork2012fairness, joseph2016rawlsian, louizos2015variational}, demographic parity/disparate impact \cite{zafar2017fairness}, and equality of opportunity \cite{hardt2016equality, zafar2017fairnessbeyond}.
 
 \textbf{\textit{Fairness through unawareness (FTU)}} suggests that for an algorithm to be fair, it may not explicitly use any of the protected feature $A$. This directly addresses disparate treatment and it was initially proposed as a baseline approach. It was shown later that in certain cases it may actually lead to a decrease in fairness \cite{kusner2017counterfactual}.
 
-\textbf{\textit{Individual Fairness (IF)}} proposes that an algorithm is fair if it gives similar prediction to similar individuals based on a given similarity metric $d(., .)$. Thus if individuals $a$ and $b$ are similar, then $\hat{Y}(X^a, A^a) \approx \hat{Y}(X^b, A^b)$. This is more complicated to implement as interpret as well since the definition depends heavily on the similarity metric as well as how close the similar individuals' predictions must be.
+\textbf{\textit{Individual Fairness (IF)}} proposes that an algorithm is fair if it gives similar prediction to similar individuals based on a given similarity metric $d(., .)$. Thus if individuals $a$ and $b$ are similar, then $\hat{Y}(X^a, A^a) \approx \hat{Y}(X^b, A^b)$. This is more complicated to implement and interpret as well, since the definition depends heavily on the similarity metric as well as how close the similar individuals' predictions must be.
 
 \textbf{\textit{Demographic Parity (DP)}}. A predictor $\hat{Y}$ satisfies demographic parity if $P(\hat{Y} | A = 0) = P(\hat{Y} | A = 1)$, assuming $A$ is binary for simplicity \cite{kusner2017counterfactual}.
 
 \textbf{\textit{Equality of Opportunity (EO)}}. A predictor $\hat{Y}$ satisfies equality of opportunity if $P(\hat{Y} = 1 | A = 0, Y = 1) = P(\hat{Y} = 1 | A = 1 , Y = 1)$, assuming $A$ is binary for simplicity \cite{kusner2017counterfactual}.
 
-\section{Proposed Activities}
+\section{Proposed Activities} \label{sec:proposed-activities}
+The purpose of this research is to analyze different definitions of fairness and ultimatly intorduce a new metric which can be used to measure fairness, independnet of a single definition. The primary dataset which is going to be used through out this research is the UCI adult dataset \cite{Dua:2017}. In addition, the UCI bank marketing dataset \cite{Dua:2017, moro2014data} is another suitable dataset which is going to be utilized, if needed. Here are the proposed activities of this study:
 
-\section{Expected outcomes and Deliverables}
+\begin{itemize}
+ \item We will fit a reliable and transparent machine learning model to the mentioned datasets, in order to achieve a reasonable accuracy. The complexity of the chosen model should be relatively low, since the model may need to be altered in order to accommodate for different definitions of fairness. In addition, the transparency of the model is also important, since it can help us find the source of the disparate impact.
  
+ \item Since it has been shown that the aforementioned definitions of fairness can be incompatible \cite{berk2017fairness, chouldechova2017fair}, firstly, for each definition evaluate its compatibility. Next, evaluate whether fairness was achieved based on the definitions, if not, get a sense of how unfair the model is.
  
+ \item We will propose a new fairness metric which would capture the overall fairness of the algorithm independent of the given definition of fairness. A metric which would evaluate the disparate impact without the need of explaining what the underlying assumption of biases is. We should clarify that the fairness would always be with respect to the protected features $A$, and that is separate from the definition of fairness as we explained in section \ref{sec:background}.
+\end{itemize}
+
+\section{Expected outcomes}
+Given our set of objectives in section \ref{sec:proposed-activities}, the first step is reasonably straight forward. The UCI adult dataset, is a well-known public dataset and a variety of models has been tested on it before. The next objective focuses on the fairness of the model. It is really unlikely that any of these definitions would end up incompatible with either of the two datasets, thus we expect to be able to conclude whether or not the model was fair with respect to the different definitions and if the model was found to be unfair, get a sense of how unfair/bias the model is. Lastly, the proposal of a new fairness metric is heavily dependent on the second objective and the overall analysis of fairness on our model. There are two possibilities, one is that we would be able to effectively put together a metric to evaluate fairness without the need for explaining the underlying assumption, or we may conclude that the dependence on an assumption is a necessary factor for evaluation of fairness. This is something that has not been discussed in a reasonable extent in the literature and either of the outcomes will help the greater research community to develop a better understanding of how fairness should be measured.
+
 \bibliographystyle{ieeetr}
 \bibliography{proposal} 
 
