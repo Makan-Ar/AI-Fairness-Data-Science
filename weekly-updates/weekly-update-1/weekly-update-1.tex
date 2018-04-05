@@ -1,0 +1,36 @@
+\documentclass[11pt]{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{url}
+
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+
+\begin{document}
+
+\title{%
+  Exploring Definitions of Fairness in Machine Learning \\ \vspace{5mm}
+  \large Project Weekly Update 1}
+\author{Makan Arastuie}
+\date{\today}
+\maketitle
+
+
+In this report we will be addressing some of the feedback and concerns regarding the proposal as well as an update on our current progress. Here is a breakdown of our three proposed activities:
+
+\begin{itemize}
+
+\item \textbf{\textit{Fitting a ML model to the UCI adult dataset.}} \textit{Status: In progress.} \textit{Anticipated date of completion (ADC): April 6, 2018.} \\
+We have been going through the literature to find out which ML algorithms deliver a reasonable amount of transparency. So far, decision trees seem to be cited as the most transparent ML model, which makes sense. We are currently evaluating whether or not decision tree is a good model to implement in this application. The other model is KNN which also comes across as reasonably transparent, given that it classifies by looking at other near data points.
+
+\item \textbf{\textit{Evaluate the fairness of the fitted model with respect to different definitions of fairness.}} \textit{Status: Not started.} \textit{ADC: April 13, 2018.} \\
+The fairness here is going to be evaluated based on the predictions in the previous activity. Here we are not trying to establish a new fair ML method, however in order to propose a new fairness metric as part of the next activity, we need to know how fair our implemented model is and how we can best capture this (un)fairness.
+
+
+\item \textbf{\textit{Proposing a new fairness metric.}} \textit{Status: Not started.} \textit{ADC: April 20, 2018.} \\
+As far as this activity goes, we would be able to address the vagueness within it by next week's report and adjust this activity if necessary. This is a fairly new topic and we have been encountering recent papers which are neither easy to find, nor easy to trust, since most of them have not been evaluated thoroughly and in some cases not yet published.
+\end{itemize} 
+
+\end{document}
