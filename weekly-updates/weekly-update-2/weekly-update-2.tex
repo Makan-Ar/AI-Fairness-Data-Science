@@ -1,0 +1,36 @@
+\documentclass[11pt]{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{url}
+
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+
+\begin{document}
+
+\title{%
+  Exploring Definitions of Fairness in Machine Learning \\ \vspace{5mm}
+  \large Project Weekly Update 2}
+\author{Makan Arastuie}
+\date{\today}
+\maketitle
+
+
+In this report, I will redefine the third task as well as a progress update on the other activities. Here is a breakdown of the three proposed activities:
+
+\begin{itemize}
+
+\item \textbf{\textit{Fitting a ML model to the UCI adult dataset.}} \textit{Status: In progress.} \textit{Anticipated date of completion (ADC): April 9, 2018.} \\
+Working with the UCI adult dataset proved to be a bit more problematic than I initially expected. In addition, due to some unanticipated work, I was not able to spend as much time on this task as I planned for. However, most of the algorithm is set up and a few more changes are needed.
+
+\item \textbf{\textit{Evaluate the fairness of the fitted model with respect to different definitions of fairness.}} \textit{Status: Not started.} \textit{ADC: April 15, 2018.} \\
+As it was mentioned in the last update, the fairness here is going to be evaluated based on the predictions in the previous activity. The purpose of this task is to identify how much of the historical biases in the dataset was learned by the algorithm and used for prediction on the test set. 
+
+\item \textbf{\textit{Proposing a framework to measure the potential biases in a dataset.}} \textit{Status: Not started.} \textit{ADC: April 24, 2018.} \\
+As I have been searching through the literature, recently there have been numerous publications on new fairness metrics or models. What I have not seen however is a framework to look for \textit{potential} biases in a dataset. This is an essential step before trying to address the problem of fairness. It is important to note that not every bias in a dataset needs to be handled using a fair algorithm, what is important however, is if something is flagged as a potential bias, it should be addressed as why it does or does not need to be handled. The framework will consider protected features and their correlations with other features and tries to pinpoint historical biases which may cause a disparate treatment or impact. This framework is tend to be used as a starting point in achieving fairness rather than blindly implementing a fair algorithm form the beginning.
+
+\end{itemize} 
+
+\end{document}
