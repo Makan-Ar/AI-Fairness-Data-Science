@@ -1,19 +1,25 @@
 import numpy as np
 import pandas as pd
-import helpers.datasets as db
+from sklearn import tree
+import helpers.datasets.adult as adult
+from sklearn.metrics import accuracy_score
 
-# adult_data = db.load_adult_data()
-# adult_test_data = db.load_adult_test()
+adult_data = adult.load(adult.data_path, encode_labels=True)
+adult_data = adult.to_numpy_w_no_missing_value(adult_data)
 
-###### Checking which features have missing values #####
-# print(adult_data.isnull().any())
+adult_targets = adult_data[:, -1]
+adult_data = adult_data[:, 0:-1]
 
-adult_data = db.load_adult(db.adult_test_path, encode_labels=True)
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(adult_data, adult_targets)
 
-# print(adult_data['Education'])
+adult_test = adult.load(adult.test_path, encode_labels=True)
+adult_test = adult.to_numpy_w_no_missing_value(adult_test)
 
-# print(adult_data.head(15))
-# m = adult_data.as_matrix()
+adult_test_targets = adult_test[:, -1]
+adult_test = adult_test[:, 0:-1]
 
-print(adult_data.head(10))
-# print(type(m[14, -2]))
+adult_test_preds = clf.predict(adult_test)
+
+print(accuracy_score(adult_test_targets, adult_test_preds))
+

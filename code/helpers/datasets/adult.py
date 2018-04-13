@@ -1,18 +1,18 @@
 import numpy as np
 import pandas as pd
 
-adult_data_path = "../datasets/adult/adult.data.txt"
-adult_test_path = "../datasets/adult/adult.data.txt"
+data_path = "../datasets/adult/adult.data.txt"
+test_path = "../datasets/adult/adult.test.txt"
 
 
-def load_adult(path, encode_labels=False):
+def load(path, encode_labels=False, verbose=False):
     feature_names = ["Age", "Workclass", "fnlwgt", "Education", "Education-Num", "Martial Status", "Occupation",
                      "Relationship", "Race", "Sex", "Capital Gain", "Capital Loss", "Hours per week", "Country",
                      "Target"]
 
     if not encode_labels:
         adult_data = pd.read_csv(path, names=feature_names, sep=r'\s*,\s*', engine='python', na_values="?",
-                                 verbose=True)
+                                 verbose=verbose)
 
         return adult_data
 
@@ -38,17 +38,26 @@ def load_adult(path, encode_labels=False):
                           "Trinadad&Tobago", "Peru", "Hong", "Holand-Netherlands"],
               "Target": [">50K", "<=50K"]}
 
-    encoders = {"Workclass": lambda x: dframe['Workclass'].index(x) if x != np.nan else x,
-                "Education": lambda x: dframe['Education'].index(x) if x != np.nan else x,
-                "Martial Status": lambda x: dframe['Martial Status'].index(x) if x != np.nan else x,
-                "Occupation": lambda x: dframe['Occupation'].index(x) if x != np.nan else x,
-                "Relationship": lambda x: dframe['Relationship'].index(x) if x != np.nan else x,
-                "Race": lambda x: dframe['Race'].index(x) if x != np.nan else x,
-                "Sex": lambda x: dframe['Sex'].index(x) if x != np.nan else x,
-                "Country": lambda x: dframe['Country'].index(x) if x != np.nan else x,
-                "Target": lambda x: dframe['Target'].index(x) if x != np.nan else x}
+    encoders = {"Workclass": lambda x: dframe['Workclass'].index(x) if not pd.isnull(x) else x,
+                "Education": lambda x: dframe['Education'].index(x) if not pd.isnull(x) else x,
+                "Martial Status": lambda x: dframe['Martial Status'].index(x) if not pd.isnull(x) else x,
+                "Occupation": lambda x: dframe['Occupation'].index(x) if not pd.isnull(x) else x,
+                "Relationship": lambda x: dframe['Relationship'].index(x) if not pd.isnull(x) else x,
+                "Race": lambda x: dframe['Race'].index(x) if not pd.isnull(x) else x,
+                "Sex": lambda x: dframe['Sex'].index(x) if not pd.isnull(x) else x,
+                "Country": lambda x: dframe['Country'].index(x) if x is not None else x,
+                "Target": lambda x: dframe['Target'].index(x.replace('.', '')) if not pd.isnull(x) else x}
 
     adult_data = pd.read_csv(path, names=feature_names, converters=encoders, sep='\s*,\s*', engine='python',
-                             na_values="?", verbose=True)
+                             na_values="?", verbose=verbose)
 
     return adult_data
+
+
+def to_numpy_w_no_missing_value(panda_data_frame):
+    np_data = panda_data_frame.as_matrix()
+
+    # Deleting rows with empty values
+    np_data = np_data[~pd.isnull(np_data).any(axis=1)].astype(int)
+
+    return np_data
