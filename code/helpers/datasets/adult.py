@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from sklearn.metrics import accuracy_score
 
 data_path = "../datasets/adult/adult.data.txt"
 test_path = "../datasets/adult/adult.test.txt"
@@ -69,3 +70,48 @@ def to_numpy_array(panda_data_frame, remove_missing_values=False):
     np_data = np_data[~pd.isnull(np_data).any(axis=1)].astype(int)
 
     return np_data
+
+
+def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None):
+    """
+    Prints the accuracy of the prediction of a subset(s) of a feature(s). For Adult data only.
+
+    :param data: The dataset that was classified
+    :param y_pred: predictions of the classifier
+    :param y_true: true classes
+    :param feature: the name of the feature to be used. Can be a single feature or a list of them.
+    :param subsets: the subset of the feature above. Can be a single subset, a list of subsets. If not specified all
+                   subsets will be evaluated.
+    :return: None
+    """
+
+    if feature not in feature_names:
+        print("Feature not found.")
+        return
+
+    feature_index = feature_names.index(feature)
+    n = data.shape[0]
+
+    # make sure subsets exists
+    if subsets is None:
+        subsets = feature_classes[feature]
+    elif type(subsets) is str:
+        subsets = list([subsets])
+    elif type(subsets) is list:
+        for sub in subsets:
+            if sub not in feature_classes[feature]:
+                print('Subset "{0}" not found in the {1}'.format(sub, feature))
+                return
+
+    print("\n{0} subset accuracy break down".format(feature))
+
+    for subset in subsets:
+        sub_index = feature_classes[feature].index(subset)
+
+        # print(data[feature_index])
+        subset_indices = np.where(data[:, feature_index] == sub_index)[0]
+        subset_accuracy = accuracy_score(y_true[subset_indices], y_pred[subset_indices]) * 100
+        subset_proportion = 100 * len(subset_indices) / n
+        print("\t{0} -> Accuracy: {1:3.2f}% - Proportion: {2:3.2f}%".format(subset, subset_accuracy, subset_proportion))
+
+    return

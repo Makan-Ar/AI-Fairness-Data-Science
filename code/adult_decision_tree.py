@@ -40,3 +40,6 @@ print("Accuracy is: {0:3.2f}%".format(accuracy_score(adult_test_targets, adult_t
 # graph = gviz.Source(dot_data)
 # graph.render("Adult")
 
+
+adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Race")
+adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Sex")
