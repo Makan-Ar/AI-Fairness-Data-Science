@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from sklearn.metrics import accuracy_score
+import sklearn.metrics as metric
 
 data_path = "../datasets/adult/adult.data.txt"
 test_path = "../datasets/adult/adult.test.txt"
@@ -110,8 +110,17 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
 
         # print(data[feature_index])
         subset_indices = np.where(data[:, feature_index] == sub_index)[0]
-        subset_accuracy = accuracy_score(y_true[subset_indices], y_pred[subset_indices]) * 100
-        subset_proportion = 100 * len(subset_indices) / n
-        print("\t{0} -> Accuracy: {1:3.2f}% - Proportion: {2:3.2f}%".format(subset, subset_accuracy, subset_proportion))
+        subset_len = len(subset_indices)
+        subset_proportion = 100 * subset_len / n
+
+        subset_accuracy = metric.accuracy_score(y_true[subset_indices], y_pred[subset_indices]) * 100
+        subset_precision = metric.precision_score(y_true[subset_indices], y_pred[subset_indices]) * 100
+
+        subset_confusion_matrix = metric.confusion_matrix(y_true[subset_indices], y_pred[subset_indices])
+        subset_false_negative_rate = subset_confusion_matrix[1, 0] / subset_len
+        subset_false_positive_rate = subset_confusion_matrix[0, 1] / subset_len
+
+        print("\t{0} -> Accuracy: {1:3.2f}% - Precision: {2:3.2f}% - FNR: {3:3.2f}% - FPR: {4:3.2f}% - Proportion: {5:3.2f}%"
+              .format(subset, subset_accuracy, subset_precision, subset_false_negative_rate, subset_false_positive_rate, subset_proportion))
 
     return
