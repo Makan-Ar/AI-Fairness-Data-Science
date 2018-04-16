@@ -1,0 +1,36 @@
+\documentclass[11pt]{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{url}
+
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+
+\begin{document}
+
+\title{%
+  Exploring Definitions of Fairness in Machine Learning \\ \vspace{5mm}
+  \large Project Weekly Update 3}
+\author{Makan Arastuie}
+\date{\today}
+\maketitle
+
+
+This report will be primarily used as a progress update on the first two activities:
+
+\begin{itemize}
+
+\item \textbf{\textit{Fitting a ML model to the UCI adult dataset.}} \textit{Status: Completed.}
+A decision tree was fitted to the UCI dataset. This was done by firstly deleting all the missing values in the dataset. I decided just to simply remove all the data points which were missing a value since non of the missing values belonged to a protected feature (as explained in the next activity update). The UCI dataset is by default separated to a learning and a testing dataset, thus the defualt cut was used with no cross validation. The resulting accuracy was $80.35\%$ which is not high. It was possible to achieve a higher accuracy by using cross validation and combining the two dataset, however, higher accuracy is not the intent of this activity. This task is marked completed as of now, however more ML models may end up being implement if necessary down the road.
+
+\item \textbf{\textit{Evaluate the fairness of the fitted model with respect to different definitions of fairness.}} \textit{Status: In progress.} \textit{ADC: April 15, 2018.} \\
+For the initial tests, race and sex were selected to be protected features. Race has 5 subsets (White, Asian-Pac-Islander, Amer-Indian-Eskimo, Black, and Amer-Indian-Eskimo). Sex is divided into male and female. Decision tree turned out to be relativity fair with respect to accuracy across subsets of race with the exception of Asian-Pac-Islander having the lowers accuracy of $75.98\%$. In addition, the prediction accuracy was surprisingly higher for females at $89.33\%$ compared to males at $75.99\%$. Furthermore, by drawing the first 5 layers of the decisions tree, I was surprised to see that non of the decisions were made based on the protected features. The drawing of the tree is also uploaded as a supplementary material.
+Overall, a more through analysis is needed to evaluate the true fairness of this model. Next I will move on to start the next activity.
+
+\item \textbf{\textit{Proposing a framework to measure the potential biases in a dataset.}} \textit{Status: Not started.} \textit{ADC: April 24, 2018.} \\
+
+\end{itemize} 
+
+\end{document}
