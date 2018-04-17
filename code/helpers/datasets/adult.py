@@ -26,14 +26,10 @@ feature_classes = {"Workclass": ["Private", "Self-emp-not-inc", "Self-emp-inc", 
                    "Sex": ["Female", "Male"],
                    "Country": ["United-States", "Cambodia", "England", "Puerto-Rico", "Canada", "Germany",
                                "Outlying-US(Guam-USVI-etc)", "India", "Japan", "Greece", "South", "China", "Cuba",
-                               "Iran",
-                               "Honduras", "Philippines", "Italy", "Poland", "Jamaica", "Vietnam", "Mexico",
-                               "Portugal",
-                               "Ireland", "France", "Dominican-Republic", "Laos", "Ecuador", "Taiwan", "Haiti",
-                               "Columbia",
-                               "Hungary", "Guatemala", "Nicaragua", "Scotland", "Thailand", "Yugoslavia",
-                               "El-Salvador",
-                               "Trinadad&Tobago", "Peru", "Hong", "Holand-Netherlands"]}
+                               "Iran", "Honduras", "Philippines", "Italy", "Poland", "Jamaica", "Vietnam", "Mexico",
+                               "Portugal", "Ireland", "France", "Dominican-Republic", "Laos", "Ecuador", "Taiwan",
+                               "Haiti", "Columbia", "Hungary", "Guatemala", "Nicaragua", "Scotland", "Thailand",
+                               "Yugoslavia", "El-Salvador", "Trinadad&Tobago", "Peru", "Hong", "Holand-Netherlands"]}
 
 target_classes = [">50K", "<=50K"]
 
@@ -102,7 +98,7 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
     :param y_true: true classes
     :param feature: the name of the feature to be used. Can be a single feature or a list of them.
     :param subsets: the subset of the feature above. Can be a single subset, a list of subsets. If not specified all
-                   subsets will be evaluated.
+                   subsets will be evaluated. This is ignored on non-categorical features.
     :return: None
     """
 
@@ -112,6 +108,10 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
 
     feature_index = feature_names.index(feature)
     n = data.shape[0]
+
+    # if feature not in feature_classes:
+    #     if feature == "age":
+    #
 
     # make sure subsets exists
     if subsets is None:
@@ -132,18 +132,33 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
         # print(data[feature_index])
         subset_indices = np.where(data[:, feature_index] == sub_index)[0]
         subset_len = len(subset_indices)
+        if subset_len == 0:
+            print("\t{0} -> None exists.".format(subset))
+            continue
+
         subset_proportion = 100 * subset_len / n
+        subset_y_true = y_true[subset_indices]
+        subset_y_pred = y_pred[subset_indices]
 
-        subset_accuracy = metric.accuracy_score(y_true[subset_indices], y_pred[subset_indices]) * 100
-        subset_precision = metric.precision_score(y_true[subset_indices], y_pred[subset_indices]) * 100
+        subset_accuracy = metric.accuracy_score(subset_y_true, subset_y_pred) * 100
+        subset_precision = metric.precision_score(subset_y_true, subset_y_pred) * 100
+        subset_f1_score = metric.f1_score(subset_y_true, subset_y_pred) * 100
+        subset_confusion_matrix = metric.confusion_matrix(subset_y_true, subset_y_pred)
 
-        subset_confusion_matrix = metric.confusion_matrix(y_true[subset_indices], y_pred[subset_indices])
-        subset_false_negative_rate = subset_confusion_matrix[1, 0] / subset_len
-        subset_false_positive_rate = subset_confusion_matrix[0, 1] / subset_len
+        if len(np.unique(subset_y_pred)) == 1:
+            subset_false_negative_rate = -1
+            subset_false_positive_rate = -1
+        else:
+            subset_false_negative_rate = subset_confusion_matrix[1, 0] / subset_len
+            subset_false_positive_rate = subset_confusion_matrix[0, 1] / subset_len
 
-        print("\t{0} -> Accuracy: {1:3.2f}% - Precision: {2:3.2f}% - FNR: {3:3.2f}% - FPR: {4:3.2f}% - "
-              "Proportion: {5:3.2f}%"
-              .format(subset, subset_accuracy, subset_precision, subset_false_negative_rate, subset_false_positive_rate,
-                      subset_proportion))
+        print("\t{0} -> Accuracy: {1:3.2f}% - F1-Score: {2:3.2f}% - Precision: {3:3.2f}% - FNR: {4:3.2f}% - "
+              "FPR: {5:3.2f}% - Proportion: {6:3.2f}%"
+              .format(subset, subset_accuracy, subset_f1_score, subset_precision, subset_false_negative_rate,
+                      subset_false_positive_rate, subset_proportion))
 
     return
+
+
+def encode_age():
+    age_subsets = [""]
