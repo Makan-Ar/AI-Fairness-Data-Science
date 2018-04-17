@@ -155,8 +155,8 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
             subset_false_negative_rate = -1
             subset_false_positive_rate = -1
         else:
-            subset_false_negative_rate = subset_confusion_matrix[1, 0] / subset_len
-            subset_false_positive_rate = subset_confusion_matrix[0, 1] / subset_len
+            subset_false_negative_rate = 100 * subset_confusion_matrix[1, 0] / subset_len
+            subset_false_positive_rate = 100 * subset_confusion_matrix[0, 1] / subset_len
 
         print("\t{0} -> Accuracy: {1:3.2f}% - F1-Score: {2:3.2f}% - Precision: {3:3.2f}% - FNR: {4:3.2f}% - "
               "FPR: {5:3.2f}% - Proportion: {6:3.2f}%"
