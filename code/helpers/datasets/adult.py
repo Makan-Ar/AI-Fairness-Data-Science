@@ -33,6 +33,7 @@ feature_classes = {"Workclass": ["Private", "Self-emp-not-inc", "Self-emp-inc", 
 
 target_classes = [">50K", "<=50K"]
 
+age_subsets = [(0, 17), (18, 29), (30, 39), (40, 49), (50, 59), (60, 69), (70, 200)]
 
 def load(dataset, encode_features=False, verbose=False):
     """
@@ -114,7 +115,9 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
     #
 
     # make sure subsets exists
-    if subsets is None:
+    if feature == "Age":
+        subsets = age_subsets
+    elif subsets is None:
         subsets = feature_classes[feature]
     elif type(subsets) is str:
         subsets = list([subsets])
@@ -127,10 +130,13 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
     print("\n{0} subset accuracy break down".format(feature))
 
     for subset in subsets:
-        sub_index = feature_classes[feature].index(subset)
+        if feature == "Age":
+            subset_indices = np.where(np.logical_and(data[:, feature_index] >= subset[0],
+                                                     data[:, feature_index] <= subset[1]))[0]
+        else:
+            sub_index = feature_classes[feature].index(subset)
+            subset_indices = np.where(data[:, feature_index] == sub_index)[0]
 
-        # print(data[feature_index])
-        subset_indices = np.where(data[:, feature_index] == sub_index)[0]
         subset_len = len(subset_indices)
         if subset_len == 0:
             print("\t{0} -> None exists.".format(subset))
@@ -158,7 +164,3 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
                       subset_false_positive_rate, subset_proportion))
 
     return
-
-
-def encode_age():
-    age_subsets = [""]
