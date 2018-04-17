@@ -6,7 +6,7 @@ import helpers.datasets.adult as adult
 from sklearn.metrics import accuracy_score
 
 # Loading the learning set
-adult_data = adult.load(adult.data_path, encode_labels=True)
+adult_data = adult.load("learning", encode_features=True)
 adult_data = adult.to_numpy_array(adult_data, remove_missing_values=True)
 
 # Separating to target and features
@@ -19,7 +19,7 @@ clf = clf.fit(adult_data, adult_targets)
 
 
 # Loading the test set
-adult_test = adult.load(adult.test_path, encode_labels=True)
+adult_test = adult.load("testing", encode_features=True)
 adult_test = adult.to_numpy_array(adult_test, remove_missing_values=True)
 
 adult_test_targets = adult_test[:, -1]

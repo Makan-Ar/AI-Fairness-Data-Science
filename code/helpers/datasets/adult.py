@@ -2,8 +2,9 @@ import numpy as np
 import pandas as pd
 import sklearn.metrics as metric
 
-data_path = "../datasets/adult/adult.data.txt"
-test_path = "../datasets/adult/adult.test.txt"
+learning_data_path = "../datasets/adult/adult.data.txt"
+testing_data_path = "../datasets/adult/adult.test.txt"
+combined_data_path = "../datasets/adult/adult.combined.txt"
 
 feature_names = ["Age", "Workclass", "fnlwgt", "Education", "Education-Num", "Martial Status", "Occupation",
                  "Relationship", "Race", "Sex", "Capital Gain", "Capital Loss", "Hours per week", "Country"]
@@ -37,10 +38,30 @@ feature_classes = {"Workclass": ["Private", "Self-emp-not-inc", "Self-emp-inc", 
 target_classes = [">50K", "<=50K"]
 
 
-def load(path, encode_labels=False, verbose=False):
+def load(dataset, encode_features=False, verbose=False):
+    """
+    Loads UCI Adult dataset.
+    :param dataset: options -> "learning": learning set only, "testing" testing set only, "both": both learning and
+                    testing sets combined.
+    :param encode_features: if True, encodes all categorical features to numerical categories from 0 to number of
+                            classes.
+    :param verbose: if True, prints information about how many missing values each feature had.
+    :return: panda DataFrame of the Adult dataset.
+    """
+
+    if dataset == "learning":
+        path = learning_data_path
+    elif dataset == "testing":
+        path = testing_data_path
+    elif dataset == "both":
+        path = combined_data_path
+    else:
+        print('Type of Adult dataset not determined. Choose "learning", "testing" or "both".')
+        return
+
     features_w_target = feature_names + ['Target']
 
-    if not encode_labels:
+    if not encode_features:
         return pd.read_csv(path, names=features_w_target, sep=r'\s*,\s*', engine='python',
                            na_values="?", verbose=verbose)
 
@@ -120,7 +141,9 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
         subset_false_negative_rate = subset_confusion_matrix[1, 0] / subset_len
         subset_false_positive_rate = subset_confusion_matrix[0, 1] / subset_len
 
-        print("\t{0} -> Accuracy: {1:3.2f}% - Precision: {2:3.2f}% - FNR: {3:3.2f}% - FPR: {4:3.2f}% - Proportion: {5:3.2f}%"
-              .format(subset, subset_accuracy, subset_precision, subset_false_negative_rate, subset_false_positive_rate, subset_proportion))
+        print("\t{0} -> Accuracy: {1:3.2f}% - Precision: {2:3.2f}% - FNR: {3:3.2f}% - FPR: {4:3.2f}% - "
+              "Proportion: {5:3.2f}%"
+              .format(subset, subset_accuracy, subset_precision, subset_false_negative_rate, subset_false_positive_rate,
+                      subset_proportion))
 
     return
