@@ -110,10 +110,6 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
     feature_index = feature_names.index(feature)
     n = data.shape[0]
 
-    # if feature not in feature_classes:
-    #     if feature == "age":
-    #
-
     # make sure subsets exists
     if feature == "Age":
         subsets = age_subsets
@@ -164,3 +160,96 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
                       subset_false_positive_rate, subset_proportion))
 
     return
+
+
+def print_feature_subsets_proportions(data, feature):
+    if feature not in feature_names:
+        print("Feature not found.")
+        return
+
+    feature_index = feature_names.index(feature)
+    n = data.shape[0]
+
+    # make sure subsets exists
+    if feature == "Age":
+        subsets = age_subsets
+    else:
+        subsets = feature_classes[feature]
+
+    print("\n{0} subset proportion break down".format(feature))
+
+    for subset in subsets:
+        if feature == "Age":
+            subset_indices = np.where(np.logical_and(data[:, feature_index] >= subset[0],
+                                                     data[:, feature_index] <= subset[1]))[0]
+        else:
+            sub_index = feature_classes[feature].index(subset)
+            subset_indices = np.where(data[:, feature_index] == sub_index)[0]
+
+        subset_len = len(subset_indices)
+        if subset_len == 0:
+            print("\t{0} -> None exists.".format(subset))
+            continue
+
+        subset_over_50K = len(np.where(data[subset_indices, -1] == 1)[0]) / n
+        subset_less_50K = len(np.where(data[subset_indices, -1] == 0)[0]) / n
+
+        print("\t {0},{1:2.4f},{2:2.4f}".format(subset, subset_over_50K, subset_less_50K))
+
+    return
+
+
+def evaluate_demographic_parity(data, clf, feature):
+    if feature not in feature_names:
+        print("Feature not found.")
+        return
+
+    feature_index = feature_names.index(feature)
+    n = data.shape[0]
+
+    # make sure subsets exists
+    if feature == "Age":
+        subsets = age_subsets
+    else:
+        subsets = feature_classes[feature]
+
+    print("\n{0} subset proportion break down".format(feature))
+
+    for subset in subsets:
+        changed_indices = set()
+
+        if feature == "Age":
+            subset_indices = np.where(np.logical_and(data[:, feature_index] >= subset[0],
+                                                     data[:, feature_index] <= subset[1]))[0]
+        else:
+            sub_index = feature_classes[feature].index(subset)
+            subset_indices = np.where(data[:, feature_index] == sub_index)[0]
+
+        n_subset = len(subset_indices)
+
+        if len(subset_indices) == 0:
+            print("\t {0} -> no instance found.".format(subset))
+            continue
+
+        subset_data = data[subset_indices, :]
+        subset_test = subset_data[:, 0:-1]
+
+        # predicting
+        actual_preds = clf.predict(subset_test)
+
+        for diff_subset in subsets:
+            if diff_subset == subset:
+                continue
+
+            diff_sub_index = feature_classes[feature].index(diff_subset)
+
+            # change the subset to another one
+            subset_test[:, feature_index] = subset_test[:, feature_index] * 0 + diff_sub_index
+
+            diff_sub_preds = clf.predict(subset_test)
+
+            for x in np.where(np.not_equal(actual_preds, diff_sub_preds))[0]:
+                changed_indices.add(x)
+
+        print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_subset, len(changed_indices), n_subset))
+

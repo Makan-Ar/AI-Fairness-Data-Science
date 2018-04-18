@@ -18,9 +18,12 @@ param_grid = [{'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000], 'gamma': [0.0001, 0.00
               {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000], 'kernel': ['linear']}]
 
 # Training the classifier
-svc = svm.SVC()
-clf = GridSearchCV(svc, param_grid=param_grid, n_jobs=5, cv=5)
-clf = clf.fit(adult_data, adult_targets)
+# svc = svm.SVC()
+# clf = GridSearchCV(svc, param_grid=param_grid, n_jobs=5, cv=5)
+# clf = clf.fit(adult_data, adult_targets)
+
+clf = svm.SVC(kernel="linear", C=0.1)
+clf.fit(adult_data, adult_targets)
 
 print("Best parameters set found on development set:\n")
 print(clf.best_params_)
