@@ -264,3 +264,74 @@ def evaluate_demographic_parity(data, clf, feature):
 
         print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_subset, len(changed_indices), n_subset))
 
+    return
+
+
+def evaluate_equality_of_opportunity(data, clf, feature):
+    if feature not in feature_names:
+        print("Feature not found.")
+        return
+
+    feature_index = feature_names.index(feature)
+    n = data.shape[0]
+
+    # make sure subsets exists
+    if feature == "Age":
+        subsets = age_subsets
+    else:
+        subsets = feature_classes[feature]
+
+    print("\n{0} subset equality of opportunity break down".format(feature))
+
+    for subset in subsets:
+        changed_indices = set()
+
+        # get indices of a particular subset which are labeled as 1 (True examples only)
+        if feature == "Age":
+            subset_indices = np.where(np.logical_and(np.logical_and(data[:, feature_index] >= subset[0],
+                                                     data[:, feature_index] <= subset[1]), data[:, -1] == 1))[0]
+        else:
+            sub_index = feature_classes[feature].index(subset)
+            subset_indices = np.where(np.logical_and(data[:, feature_index] == sub_index, data[:, -1] == 1))[0]
+
+        if len(subset_indices) == 0:
+            print("\t {0} -> no instance found.".format(subset))
+            continue
+
+        subset_data = data[subset_indices, :]
+        subset_test = subset_data[:, 0:-1]
+
+        # predicting
+        actual_preds = clf.predict(subset_test)
+        n_true_positive = len(np.where(actual_preds == 1)[0])
+
+        for diff_subset in subsets:
+            if diff_subset == subset:
+                continue
+
+            if feature == "Age":
+                if diff_subset[0] == 70:
+                    average_subset_age = 75
+                elif diff_subset[0] == 0:
+                    average_subset_age = 16
+                else:
+                    average_subset_age = (diff_subset[0] + diff_subset[1]) / 2
+
+                subset_test[:, feature_index] = subset_test[:, feature_index] * 0 + average_subset_age
+            else:
+                diff_sub_index = feature_classes[feature].index(diff_subset)
+
+                # change the subset to another one
+                subset_test[:, feature_index] = subset_test[:, feature_index] * 0 + diff_sub_index
+
+            diff_sub_preds = clf.predict(subset_test)
+
+            # Check which true positive predictions changed by changing the class membership
+            for i in range(len(actual_preds)):
+                if actual_preds[i] == 1 and actual_preds[i] != diff_sub_preds[i]:
+                    changed_indices.add(i)
+
+        print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_true_positive,
+                                               len(changed_indices), n_true_positive))
+
+    return

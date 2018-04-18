@@ -1,8 +1,7 @@
 import numpy as np
-# import graphviz as gviz
-from sklearn import tree
+from sklearn.ensemble import RandomForestClassifier
 import helpers.datasets.adult as adult
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score
 
 # Loading the learning set
 adult_data = adult.load("learning", encode_features=True)
@@ -12,10 +11,6 @@ adult_data = adult.to_numpy_array(adult_data, remove_missing_values=True)
 adult_targets = adult_data[:, -1]
 adult_data = adult_data[:, 0:-1]
 
-# Training the classifier
-clf = tree.DecisionTreeClassifier()
-clf = clf.fit(adult_data, adult_targets)
-
 
 # Loading the test set
 adult_test = adult.load("testing", encode_features=True)
@@ -24,12 +19,14 @@ adult_test = adult.to_numpy_array(adult_test, remove_missing_values=True)
 adult_test_targets = adult_test[:, -1]
 adult_test = adult_test[:, 0:-1]
 
+# Training the classifier
+clf = RandomForestClassifier(n_estimators=100)
+clf = clf.fit(adult_data, adult_targets)
+
 # predicting
 adult_test_preds = clf.predict(adult_test)
 
-
 print("Accuracy is: {0:3.2f}%".format(accuracy_score(adult_test_targets, adult_test_preds) * 100))
-print("F-1 score is: {0:3.2f}%".format(f1_score(adult_test_targets, adult_test_preds) * 100))
 
 
 # # Drawing the decision tree
@@ -48,13 +45,13 @@ print("F-1 score is: {0:3.2f}%".format(f1_score(adult_test_targets, adult_test_p
 # adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Age")
 
 
-# # Evaluating demographic parity and equality of opportunity
-# adult_test = adult.load("testing", encode_features=True)
-# adult_test = adult.to_numpy_array(adult_test, remove_missing_values=True)
-# # adult.evaluate_demographic_parity(adult_test, clf, "Race")
-# # adult.evaluate_demographic_parity(adult_test, clf, "Sex")
-# # adult.evaluate_demographic_parity(adult_test, clf, "Country")
-# # adult.evaluate_demographic_parity(adult_test, clf, "Age")
+# Evaluating demographic parity and equality of opportunity
+adult_test = adult.load("testing", encode_features=True)
+adult_test = adult.to_numpy_array(adult_test, remove_missing_values=True)
+# adult.evaluate_demographic_parity(adult_test, clf, "Race")
+# adult.evaluate_demographic_parity(adult_test, clf, "Sex")
+# adult.evaluate_demographic_parity(adult_test, clf, "Country")
+# adult.evaluate_demographic_parity(adult_test, clf, "Age")
 #
 # adult.evaluate_equality_of_opportunity(adult_test, clf, "Race")
 # adult.evaluate_equality_of_opportunity(adult_test, clf, "Sex")
