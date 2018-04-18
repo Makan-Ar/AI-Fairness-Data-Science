@@ -213,7 +213,7 @@ def evaluate_demographic_parity(data, clf, feature):
     else:
         subsets = feature_classes[feature]
 
-    print("\n{0} subset proportion break down".format(feature))
+    print("\n{0} subset demographic parity break down".format(feature))
 
     for subset in subsets:
         changed_indices = set()
@@ -241,13 +241,24 @@ def evaluate_demographic_parity(data, clf, feature):
             if diff_subset == subset:
                 continue
 
-            diff_sub_index = feature_classes[feature].index(diff_subset)
+            if feature == "Age":
+                if diff_subset[0] == 70:
+                    average_subset_age = 75
+                elif diff_subset[0] == 0:
+                    average_subset_age = 16
+                else:
+                    average_subset_age = (diff_subset[0] + diff_subset[1]) / 2
 
-            # change the subset to another one
-            subset_test[:, feature_index] = subset_test[:, feature_index] * 0 + diff_sub_index
+                subset_test[:, feature_index] = subset_test[:, feature_index] * 0 + average_subset_age
+            else:
+                diff_sub_index = feature_classes[feature].index(diff_subset)
+
+                # change the subset to another one
+                subset_test[:, feature_index] = subset_test[:, feature_index] * 0 + diff_sub_index
 
             diff_sub_preds = clf.predict(subset_test)
 
+            # Check which predictions changed by changing the class membership and adding them to the changed list
             for x in np.where(np.not_equal(actual_preds, diff_sub_preds))[0]:
                 changed_indices.add(x)
 
