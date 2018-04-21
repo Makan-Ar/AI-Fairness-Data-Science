@@ -1,0 +1,39 @@
+\documentclass[11pt]{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{url}
+
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+
+\begin{document}
+
+\title{%
+  Exploring Definitions of Fairness in Machine Learning \\ \vspace{5mm}
+  \large Project Weekly Update 4}
+\author{Makan Arastuie}
+\date{\today}
+\maketitle
+
+
+FYI, almost everything in this progress update was mentioned in my presentation.
+
+More analyses  done during the past week proved that having a single ML model fitted on the UCI dataset is not enough for me to draw a conclusion to complete my third task. As a result, I have to fit more models, which means the first task was not completed as it was noted in the last progress update. Here is the break down of my final progress update:
+
+\begin{itemize}
+
+\item \textbf{\textit{Fitting a ML models to the UCI adult dataset.}} \textit{Status: In progress.} \textit{Anticipated date of completion (ADC): April 26, 2018.} \\
+The decision tree that was fitted on the UCI dataset was altered to be more transparent by limiting the maximum depth to be 3 with entropy as its split function. It was able to achieve a surprising high accuracy (considering its complexity) of $83.12\%$. The next ML model that I ran on the dataset was random forest with the following parameters: split func: gini, number of trees: 50, max depth: 14. This obviously has a higher complexity compared to the first model and it was able to achieve $85.86\%$ overall accuracy ( $2.74\%$ improvement).
+
+
+\item \textbf{\textit{Evaluate the fairness of the fitted models with respect to different definitions of fairness.}} \textit{Status: In progress.} \textit{ADC: April 26, 2018.} \\
+First of all, this time I marked age, sex, country of origin, and race to be protected features. In addition, other than the standard fairness metrics that were measured last week, I also implemented demographic parity and equality of opportunity (both definitions were covered in my proposal). The decision tree model, only used marital status, capital gain and education-num to split the tree. Thus, both demographic parity and equality of opportunity were satisfied. However, that was not the case with random forest. Therefore, I designed a metric to measure the unfairness with respect to each of the two mentioned fairness metrics. In a nutshell, for each of these metrics, I evaluated the ratio of the number of data points in the testing dataset which did not satisfy the fairness metric to the data points that did. This was done for every sub-group of every protected feature, then I calculated the mean of all subsets. The result was interesting. Age was the feature with the most "unfairness" followed by country, race and sex, in both definitions.
+
+\item \textbf{\textit{Fairness complexity trade-off.}} \textit{Status: In progress.} \textit{ADC: April 28, 2018.} \\
+This task will be an on-going task since with every new model that is fitted on the dataset, this comparison is done. As we saw with the first two models, fairness and complexity have an inverse relationship, however it is too soon to draw a conclusion.
+
+\end{itemize} 
+
+\end{document}
