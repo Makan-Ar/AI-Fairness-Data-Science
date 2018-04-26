@@ -31,9 +31,10 @@ feature_classes = {"Workclass": ["Private", "Self-emp-not-inc", "Self-emp-inc", 
                                "Haiti", "Columbia", "Hungary", "Guatemala", "Nicaragua", "Scotland", "Thailand",
                                "Yugoslavia", "El-Salvador", "Trinadad&Tobago", "Peru", "Hong", "Holand-Netherlands"]}
 
-target_classes = [">50K", "<=50K"]
+target_classes = ["<=50K", ">50K"]
 
 age_subsets = [(0, 17), (18, 29), (30, 39), (40, 49), (50, 59), (60, 69), (70, 200)]
+
 
 def load(dataset, encode_features=False, verbose=False):
     """
