@@ -205,7 +205,9 @@ def evaluate_demographic_parity(data, clf, feature):
         return
 
     feature_index = feature_names.index(feature)
-    n = data.shape[0]
+    if data.shape[1] != len(feature_names) + 1:
+        print("Dataset shape does not match!")
+        return
 
     # make sure subsets exists
     if feature == "Age":
@@ -276,7 +278,9 @@ def evaluate_equality_of_opportunity(data, clf, feature):
         return
 
     feature_index = feature_names.index(feature)
-    n = data.shape[0]
+    if data.shape[1] != len(feature_names) + 1:
+        print("Dataset shape does not match!")
+        return
 
     # make sure subsets exists
     if feature == "Age":

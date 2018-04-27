@@ -38,10 +38,10 @@ adult_test = adult.load("testing", encode_features=True)
 adult_test = adult.to_numpy_array(adult_test, remove_missing_values=True)
 
 adult_test_targets = adult_test[:, -1]
-adult_test = adult_test[:, 0:-1]
+adult_test_features = adult_test[:, 0:-1]
 
 # predicting
-adult_test_preds = clf.predict(adult_test)
+adult_test_preds = clf.predict(adult_test_features)
 
 print("Accuracy is: {0:3.2f}%".format(accuracy_score(adult_test_targets, adult_test_preds) * 100))
 
@@ -50,13 +50,13 @@ print("Accuracy is: {0:3.2f}%".format(accuracy_score(adult_test_targets, adult_t
 # adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Sex")
 # adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Country")
 # adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Age")
-
+#
 # adult.evaluate_demographic_parity(adult_test, clf, "Race")
 # adult.evaluate_demographic_parity(adult_test, clf, "Sex")
 # adult.evaluate_demographic_parity(adult_test, clf, "Country")
 # adult.evaluate_demographic_parity(adult_test, clf, "Age")
 
-# adult.evaluate_equality_of_opportunity(adult_test, clf, "Race")
-# adult.evaluate_equality_of_opportunity(adult_test, clf, "Sex")
+adult.evaluate_equality_of_opportunity(adult_test, clf, "Race")
+adult.evaluate_equality_of_opportunity(adult_test, clf, "Sex")
 # adult.evaluate_equality_of_opportunity(adult_test, clf, "Country")
 adult.evaluate_equality_of_opportunity(adult_test, clf, "Age")
