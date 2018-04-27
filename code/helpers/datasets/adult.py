@@ -191,10 +191,10 @@ def print_feature_subsets_proportions(data, feature):
             print("\t{0} -> None exists.".format(subset))
             continue
 
-        subset_over_50K = len(np.where(data[subset_indices, -1] == 1)[0]) / n
-        subset_less_50K = len(np.where(data[subset_indices, -1] == 0)[0]) / n
+        subset_over_50k = len(np.where(data[subset_indices, -1] == 1)[0]) / n
+        subset_less_50k = len(np.where(data[subset_indices, -1] == 0)[0]) / n
 
-        print("\t {0},{1:2.4f},{2:2.4f}".format(subset, subset_over_50K, subset_less_50K))
+        print("\t {0},{1:2.4f},{2:2.4f}".format(subset, subset_over_50k, subset_less_50k))
 
     return
 
@@ -264,9 +264,9 @@ def evaluate_demographic_parity(data, clf, feature):
                 changed_indices.add(x)
 
         all_subsets_eo.append(len(changed_indices) / n_subset)
-        # print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_subset, len(changed_indices), n_subset))
+        print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_subset, len(changed_indices), n_subset))
 
-    print(np.mean(all_subsets_eo))
+    print("Average:", np.mean(all_subsets_eo))
     return
 
 
@@ -309,6 +309,10 @@ def evaluate_equality_of_opportunity(data, clf, feature):
         actual_preds = clf.predict(subset_test)
         n_true_positive = len(np.where(actual_preds == 1)[0])
 
+        if n_true_positive == 0:
+            print("\t {0} -> no prediction of >50K income".format(subset))
+            continue
+
         for diff_subset in subsets:
             if diff_subset == subset:
                 continue
@@ -336,8 +340,8 @@ def evaluate_equality_of_opportunity(data, clf, feature):
                     changed_indices.add(i)
 
         all_subsets_eo.append(len(changed_indices) / n_true_positive)
-        # print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_true_positive,
-        #                                        len(changed_indices), n_true_positive))
+        print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_true_positive,
+                                               len(changed_indices), n_true_positive))
 
-    print(np.mean(all_subsets_eo))
+    print("Average:", np.mean(all_subsets_eo))
     return
