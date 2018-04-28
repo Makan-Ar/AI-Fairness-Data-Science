@@ -86,7 +86,7 @@ def to_numpy_array(panda_data_frame, remove_missing_values=False):
         return np_data
 
     # Deleting rows with empty values
-    np_data = np_data[~pd.isnull(np_data).any(axis=1)].astype(int)
+    np_data = np_data[~pd.isnull(np_data).any(axis=1)].astype(float)
 
     return np_data
 
