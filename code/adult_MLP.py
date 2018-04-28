@@ -1,10 +1,11 @@
 import numpy as np
 from sklearn import svm
 import helpers.datasets.adult as adult
+from sklearn.pipeline import make_pipeline
 from sklearn.metrics import accuracy_score
-from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
-
+from sklearn.neural_network import MLPClassifier
+from sklearn.preprocessing import StandardScaler
 
 # Loading the learning set
 adult_data = adult.load("learning", encode_features=True)
@@ -14,19 +15,22 @@ adult_data = adult.to_numpy_array(adult_data, remove_missing_values=True)
 adult_targets = adult_data[:, -1]
 adult_data = adult_data[:, 0:-1]
 
-param_grid = [{'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000], 'gamma': [0.0001, 0.001, 0.1, 1], 'kernel': ['rbf']},
-              {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000], 'kernel': ['linear']}]
+param_grid = {
+    'hidden_layer_sizes': [(4,), (7,), (10, ), (7, 4), (12, 5)],
+    'activation': ['logistic', 'tanh', 'relu'],
+    'tol': [1e-2, 1e-3, 1e-4, 1e-6],
+    'epsilon': [1e-3, 1e-7, 1e-8, 1e-9, 1e-8],
+    'solver': ['lbfgs', 'sgd'],
+}
 
-# Training the classifier
-# svc = svm.SVC()
-# clf = GridSearchCV(svc, param_grid=param_grid, n_jobs=5, cv=5)
-# clf = clf.fit(adult_data, adult_targets)
-
-clf = svm.SVC(kernel="linear", C=0.1)
+# Grid search on NN
+clf = make_pipeline(StandardScaler(), GridSearchCV(MLPClassifier(), param_grid=param_grid, n_jobs=24, cv=5, refit=True))
 clf.fit(adult_data, adult_targets)
-
 print("Best parameters set found on development set:\n")
-print(clf.best_params_)
+c = clf.named_steps.gridsearchcv.best_params_
+print(c)
+
+clf.fit(adult_data, adult_targets)
 
 # Loading the test set
 adult_test = adult.load("testing", encode_features=True)

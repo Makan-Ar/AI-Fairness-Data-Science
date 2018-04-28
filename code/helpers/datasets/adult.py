@@ -91,6 +91,43 @@ def to_numpy_array(panda_data_frame, remove_missing_values=False):
     return np_data
 
 
+def print_feature_subsets_proportions(data, feature):
+    if feature not in feature_names:
+        print("Feature not found.")
+        return
+
+    feature_index = feature_names.index(feature)
+    n = data.shape[0]
+
+    # make sure subsets exists
+    if feature == "Age":
+        subsets = age_subsets
+    else:
+        subsets = feature_classes[feature]
+
+    print("\n{0} subset proportion break down".format(feature))
+
+    for subset in subsets:
+        if feature == "Age":
+            subset_indices = np.where(np.logical_and(data[:, feature_index] >= subset[0],
+                                                     data[:, feature_index] <= subset[1]))[0]
+        else:
+            sub_index = feature_classes[feature].index(subset)
+            subset_indices = np.where(data[:, feature_index] == sub_index)[0]
+
+        subset_len = len(subset_indices)
+        if subset_len == 0:
+            print("\t{0} -> None exists.".format(subset))
+            continue
+
+        subset_over_50k = len(np.where(data[subset_indices, -1] == 1)[0]) / n
+        subset_less_50k = len(np.where(data[subset_indices, -1] == 0)[0]) / n
+
+        print("\t {0},{1:2.4f},{2:2.4f}".format(subset, subset_over_50k, subset_less_50k))
+
+    return
+
+
 def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None):
     """
     Prints the accuracy of the prediction of a subset(s) of a feature(s). For Adult data only.
@@ -158,43 +195,6 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
               "FPR: {4:3.2f}% - Proportion: {5:3.2f}%"
               .format(subset, subset_accuracy, subset_precision, subset_false_negative_rate,
                       subset_false_positive_rate, subset_proportion))
-
-    return
-
-
-def print_feature_subsets_proportions(data, feature):
-    if feature not in feature_names:
-        print("Feature not found.")
-        return
-
-    feature_index = feature_names.index(feature)
-    n = data.shape[0]
-
-    # make sure subsets exists
-    if feature == "Age":
-        subsets = age_subsets
-    else:
-        subsets = feature_classes[feature]
-
-    print("\n{0} subset proportion break down".format(feature))
-
-    for subset in subsets:
-        if feature == "Age":
-            subset_indices = np.where(np.logical_and(data[:, feature_index] >= subset[0],
-                                                     data[:, feature_index] <= subset[1]))[0]
-        else:
-            sub_index = feature_classes[feature].index(subset)
-            subset_indices = np.where(data[:, feature_index] == sub_index)[0]
-
-        subset_len = len(subset_indices)
-        if subset_len == 0:
-            print("\t{0} -> None exists.".format(subset))
-            continue
-
-        subset_over_50k = len(np.where(data[subset_indices, -1] == 1)[0]) / n
-        subset_less_50k = len(np.where(data[subset_indices, -1] == 0)[0]) / n
-
-        print("\t {0},{1:2.4f},{2:2.4f}".format(subset, subset_over_50k, subset_less_50k))
 
     return
 

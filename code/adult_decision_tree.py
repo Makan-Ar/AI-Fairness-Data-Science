@@ -1,5 +1,5 @@
 import numpy as np
-import graphviz as gviz
+# import graphviz as gviz
 from sklearn import tree
 import helpers.datasets.adult as adult
 from sklearn.metrics import accuracy_score, f1_score
@@ -44,7 +44,7 @@ print("F-1 score is: {0:3.2f}%".format(f1_score(adult_test_targets, adult_test_p
 
 adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Race")
 adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Sex")
-adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Country")
+# adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Country")
 adult.get_accuracy_for_feature_subset(adult_test, adult_test_preds, adult_test_targets, "Age")
 
 
