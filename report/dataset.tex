@@ -1,0 +1,81 @@
+\section{Dataset} \label{sec:dataset}
+The initial and arguably the most important step in any fair ML setup is getting to understand the dataset. For this study we chose to empirically analyze the UCI Adult Income dataset \cite{Dua:2017} which was extracted from the 1994 Census database. This dataset has been wiedly used to evaluate newly proposed fairness methods \cite{zafar2017fairness, zafar2017parity, pleiss2017fairness, calmon2017optimized}. Every record in the dataset is an individual and the prediction task is to determine whether a person makes over \$50K a year (back in 1994), which makes it a supervised binary classification. We assume that being classified as someone who makes over \$50K a year to be advantageous for an individual. This can be a setup where the prediction is used to determine whether or not a person is eligible to receive a loan where having a higher income increases an individual's chances.
+
+Adult dataset contains 14 features, most of which are categorical. We decided to consider \textit{race}, \textit{sex}, \textit{country of origin}, and \textit{age} to be protected features. These are all legally protected classes in U.S. \cite{calmon2017optimized}.
+
+Furthermore, this dataset has a predefined training and testing split of $2/3$ and $1/3$, which we use in all of our analyses. There are $30162$ and $15060$ examples in the training and testing sets respectively and $3/4$ of both sets make $\leq$ \$50K a year. 
+
+Table \ref{tab:protected-features-subset-breakdown} shows the breakdown of proportions of different subsets of each protected feature. It also should be mentioned that the subset "Other" in the "Country of Origin" includes 39 countries. Here are a few characteristics of this dataset that stand out:
+
+\begin{itemize}
+	\item Majorities are white males between the age of 18 to 40.
+	\item The proportion of females who make over \$50K a year to the ones who do not, is $12.89\%$ compared to males at $45.69\%$.
+	\item Same proportion for people between 18 to 29 is $6.5\%$ compared to $37.37\%$ for 30 to 39 and $60.14\%$ for 40 to 49.
+	\item There are a few people in the dataset who are under 18 years of age and non of them make over \$50K a year.
+	\item Over $90\%$ of the people in both training and testing sets are from the United States. 
+\end{itemize}
+
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|c|c|c||c|c|}
+  \cline{2-5}
+  \multicolumn{1}{c|}{} & \multicolumn{2}{c||}{Training Set} & \multicolumn{2}{c|}{Testing Set} \\
+  \hline 
+  Subsets & $\leq$ \$50K & $>$ \$50K & $\leq$ \$50K & $>$ \$50K \\ 
+  \hline
+  
+  
+  \multicolumn{5}{|c|}{Race} \\
+  \hline 
+  White & 0.633 & 0.227 & 0.638 & 0.224 \\ 
+  \hline 
+  Black & 0.081 & 0.012 & 0.083 & 0.011 \\ 
+  \hline 
+  Asian-Pac-Islander  & 0.021 & 0.008 & 0.019 & 0.008 \\ 
+  \hline 
+  Amer-Indian-Eskimo & 0.008 & 0.001 & 0.009 & 0.001 \\ 
+  \hline 
+  Other & 0.007 & 0.001 & 0.007 & 0.002 \\ 
+  \hline
+  
+  
+  \multicolumn{5}{|c|}{Sex} \\
+  \hline 
+  Male  & 0.464 & 0.212 & 0.465 & 0.209 \\ 
+  \hline 
+  Female & 0.287 & 0.037 & 0.289 & 0.037 \\ 
+  \hline 
+  
+  
+  \multicolumn{5}{|c|}{Country of Origin} \\
+  \hline 
+  United States & 0.680 & 0.232 & 0.686 & 0.229 \\ 
+  \hline 
+  Mexico & 0.019 & 0.001 & 0.019 & 0.001 \\ 
+  \hline 
+  Other & 0.052 & 0.016 & 0.050 & 0.015 \\ 
+  \hline
+  
+  
+  \multicolumn{5}{|c|}{Age} \\
+  \hline 
+  Under 18 & 0.011 & 0.000 & 0.011 & 0.000 \\ 
+  \hline 
+  18 to 29 & 0.264 & 0.016 & 0.257 & 0.015 \\ 
+  \hline 
+  30 to 39 & 0.198 & 0.074 & 0.201 & 0.075 \\ 
+  \hline 
+  40 to 49 & 0.143 & 0.086 & 0.141 & 0.086 \\ 
+  \hline 
+  50 to 59 & 0.084 & 0.054 & 0.087 & 0.051 \\ 
+  \hline 
+  60 to 69 & 0.039 & 0.015 & 0.043 & 0.016 \\ 
+  \hline 
+  70 and over & 0.012 & 0.003 & 0.015 & 0.004 \\ 
+  \hline 
+  \end{tabular} 
+  
+  \caption{Protected features subset proportion breakdown of the UCI Adult Income dataset.}
+   \label{tab:protected-features-subset-breakdown}
+\end{table}

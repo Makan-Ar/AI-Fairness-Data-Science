@@ -1,0 +1,55 @@
+\section{Empirical Analyses} \label{sec:empirical-analyses}
+
+As mentioned in Section \ref{sec:intro}, our purpose with this study is to analyze how the fairness of different well-known ML models varies as the complexity of these models increases. This section will be divided into two parts. First, we briefly explain the ML models which we implement on the dataset. Since all of these models are very well-known, we will not go into too much details. Next, we will explain how we evaluate the fairness of these models.
+
+\subsection{Classification Models} \label{subsec:classification-models}
+Overall, we fit 8 different supervised binary classification models on the UCI Adult Income dataset. As mentioned before, it is hard to correctly and objectivity rank the complexity of these models. Thus, we took a combination of two different measures. The first one is the time it took for the model to fit the training set. For this measure, all the tests are run on the same computer with the test being the only major running process. All models are fitted 100 times on the training set, each run is timed separately, then we report the average over all the runs as time to fit (TTF) in seconds. The next measure of complexity is the relative transparency of the intuition behind how the model works. We categorize them into 4 categories ($1-4$) form the most transparent to the least. Now, this tends to be more subjective and harder to empirically measure. Thus we provide our opinion on how transparent a model is. Using these two measures, we rank all models. We acknowledge that it is possible for a few of these models to be misplaced one or two rankings higher or lower than how most other people would rank them , but we believe that the overall rankings are fair and provide enough structure for us to continue our empirical analysis. 
+
+All of these models are trained and tested on the aforementioned sets in Section \ref{sec:dataset}. Non of these models are ever trained on the testing set in any form. Here are the ML models in increasing order of complexity.
+
+\begin{enumerate}
+	\item \textit{Decision Tree (DT)} -- TTF: $0.0284 s$ - Transparency: $1$ \\
+The most transparent model that we fit into our dataset is a decision tree with entropy as its criterion. The intuition behind how a decision chooses a feature for its split and how it classifies every example is well-known. Not only that, in order to make the model easier to interpret, we limited the depth of the tree to 3. It also was the second fastest model to fit the training set. As it is shown in Figure \ref{fig:desicion-tree-depth-3}, after we fit the model, non of the protected features are used to make a split in the tree.
+	
+\begin{figure*}
+	\begin{center}
+    	\centering
+        \includegraphics[scale=.35]{graphics/decision-tree-depth-3}
+        \caption{Decision Tree classier with entropy criterion and depth of 3. As it is shown in the tree, no decision is made based on any of the protected features.}
+        \label{fig:desicion-tree-depth-3}
+     \end{center}
+\end{figure*}
+
+
+\item \textit{Random Forest (RF)} -- TTF: $2.7403 s$ - Transparency: $1$ \\
+%n_estimators=50, max_features=None, max_depth=14
+In order to reasonably increase the complexity the decision tree, we decided to implement a random forest model with 50 trees, max-depth of 14 to be same as number of features, and gini as its criterion. Although it takes more time for this model to fit the data, the intuition behind how it works is still relatively easy to follow.
+
+\item \textit{Gaussian Naive Bayes (GNB)} -- TTF: $0.0103 s$ - Transparency: $2$ \\
+Here we implement a GNB model where the likelihood of features are assumed to be Gaussian, then standard deviation $\sigma$ and mean  $\mu$ of the distribution over the outcome is estimated using maximum likelihood. We also first scale all features to standard normal. This was the fastest model to fit the data, as expected, and with a relatively widely used maximizing approach the transparency is reasonable.  Thus, we placed this model third in the complexity ranking.
+
+\item \textit{Logistic Regression (LR)} -- TTF: $0.0347 s$ - Transparency: $2$ \\
+Our list of binary classification models would not have been complete without the classical LR. The following parameters seemed to yield the highest accuracy: $C=6.6$, $penalty= l1$, and $tol=0.01$ with scaling all the features to standard normal. This is a model that has been studied numerous times and the intuition on how it works is reasonably understood. Given that it took longer than GNB, it is placed 4th in the ranking.
+
+\item \textit{K-Nearest Neighbors (KNN)} -- TTF: $0.5629 s$ - Transparency: $3$ \\
+The overall intuition behind how KNN works is easy to follow at small dimensions but as the dimensions increases and we start adding weights to scaled features it becomes less and less transparent. This model uses a uniformly distributed weight on all features and looks at the nearest 15 examples. 
+
+\item \textit{Support Vector Machine (SVM)} -- TTF: $14.8490 s$ - Transparency: $3$ \\
+SVM is also one of the well-known classification models, which is not as transparent as the previous models. It also took the second longest to fit the data, thus it is ranked 3rd from the last for complexity. We first scaled all the features to a standard normal, then fitted an SVM with an RBF kernel and set $C=100$ and $gamma=0.001$, which seemed to achieve reasonable accuracy.
+
+\item \textit{Gaussian Process Classifier (GPC)} -- TTF: $5.3hrs$ - Transparency: $4$ \\
+GPC implements a Gaussian Process (GP) for probabilistic classification. It places a GP prior on a latent function which then goes through a link function, for which the integral is approximated, to obtain a probabilistic classification. This model is defiantly less transparent than any of the previously mentioned models, and it take a very very long time to fit the scaled training set. Thus, it is ranked to be the second most complex model. It should also be mentioned that this model was run only once to measure how long it took to fit the training set, however, due to the vast difference in TTF relative to the other models, it is safe to say that this is defiantly the slowest model.
+
+\item \textit{Multilayer Perceptron (MLP)} -- TTF: $2.2169 s$ - Transparency: $4$ \\
+MLP also known as neural network is notorious for being hard to interpret and often it is treated as a black box. That is why we ranked it as the least transparent model. An MLP with the following parameters is fitted to the scaled training set: activation=tan , epsilon$=0.001$, one hidden layer of size 10, solver=lbfgs, and tol=$1e^{-6}$.
+\end{enumerate}
+
+
+\subsection{Measuring Fairness}
+In this section we will explain our approach to measure fairness. Overall, we utilized the same three definitions as described in Section \ref{subsec:def-of-fairness}. However, DP and EO simply are properties which are either satisfied or not and most of the models in Section \ref{subsec:classification-models} do not satisfy either of them. Therefore, we designed two measures in order to be able to capture how much fairness violation each model with respect to these definitions. FPR and FNR are measured as it was explained in Section \ref{subsec:def-of-FPR}.
+
+\subsection{Demographic Parity Violation Rate (DPVR)} \label{subsec:DPVR}
+As it was described in Section \ref{subsec:def-of-DP}, DP states that changing the class membership of an individual in a protected feature, should not change the predicted outcome. Therefore, in our testing set, it would be considered a violation of DP if the prediction of an individual changes, when we simply change the membership of an individual from group $A$ to $B$ in a protected feature $X$. This is precisely how we count violations with respect to DP. In a broader terms, for all subsets of a protected feature $X$, we first classify an individual with his or her given class membership. Then, we change the individual's membership to all other possible subsets and classify that person again. If the prediction changes in this process, we count that as a violation of DP for the subset that the individual originally belonged to. Next, for every subset we calculate the rate of violation to the max number of possible violation (number of examples in the subset) to get the DPVR of that subset. Next, we can average over all DPVRs in a protected feature to get the mean DPVR of the protected class itself.
+
+\subsection{Equality of Opportunity Violation Rate (EOVR)} \label{subsec:EOVR}
+This measure is intended to evaluate the violation rate with respect to EO as it is described in Section \ref{subsec:def-of-EO}. EO states that the prediction of any individual who was correctly classified as positive, should not change if we simply change his or her membership in a protected class. The process of counting violations and evaluating the rate is similar to DPVR, however instead of considering every member of a subset of a protected feature, we only consider those who were correctly classified as positive.

@@ -1,0 +1,60 @@
+\documentclass[sigconf]{acmart}
+
+\usepackage{booktabs} % For formal tables
+\usepackage{natbib}
+
+% Copyright
+%\setcopyright{none}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+\setcopyright{rightsretained}
+%\setcopyright{usgov}
+%\setcopyright{usgovmixed}
+%\setcopyright{cagov}
+%\setcopyright{cagovmixed}
+
+
+\begin{document}
+\title{Fairness and Complexity Trade-off in Machine Learning}
+%\titlenote{Produces the permission block, and
+%  copyright information}
+%\subtitle{}
+%\subtitlenote{The full version of the author's guide is available as
+%\texttt{acmart.pdf} document}
+
+\author{Anonymized Submission}
+%\author{Makan Arastuie}
+%\affiliation{%
+  %\institution{The University of Toledo}
+  %\city{Toledo}\textbf{•}
+  %\state{Ohio}
+  %\postcode{43607}
+%}
+%\email{makan.arastuie@rockets.utoledo.edu}
+
+
+\begin{abstract}
+As more machine learning applications are being trusted with making decisions that directly or indirectly affect human lives, the potential lack of fairness or discriminatory decisions have become a growing concern within the machine learning community. Recently, researchers have been designing fair models which have been relatively successful in achieving a specific type of fairness in a specific setting, however the issue is that there is no unique or relatively straight forward way of implementing a fair machine learning algorithm. There is no guarantee that a machine learning model that affects individuals is going to be deployed by an expert computer scientist who is capable of an in depth analysis on the fairness of the model. Thus, in this study we explore how well-known and widely used machine learning supervised classification model perform with respect to 4 different definitions of fairness. More importantly, we empirically analyze how different measures of fairness vary as the complexity of these models increases. We observed a weak trade-off between fairness and complexity, however there were some exceptions to this trend. In addition, we demonstrated how being fair with respect to two of the most widely used definitions of fairness, does not guarantee fairness with respect to some other definitions. We believe that uncovering general trends (e.g. this trade-off) will help developers implement more fair algorithms without too much expertise in this field.
+\end{abstract}
+
+
+\keywords{fairness, complexity, machine learning, fairness vs. complexity, trade-off, demographic parity, equality of opportunity}
+
+\maketitle
+
+\input{intro}
+
+\input{background}
+
+\input{dataset}
+
+\input{empirical-analyses}
+
+\input{Results}
+
+\input{Conclusion}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bibliography}
+
+\end{document}

@@ -1,0 +1,41 @@
+\section{Background and Related Work} \label{sec:background}
+A growing number of researchers has been recently exploiting fairness in AI \cite{calmon2017optimized, zafar2017fairness, kusner2017counterfactual, pleiss2017fairness, chiappa2018path, dwork2017decoupled, russell2017worlds, zhang2018fairness}. Each of these papers tend to address fairness by focusing on one or more of the components in a machine learning model's pipeline (pre-, in- and post-processing). Overall, they tend to decrease the impact of the inherited biases in the dataset by sacrificing some accuracy with respect to a certain definition of fairness. As we will explain later on, some of these models are simple, but incapable of achieving a reasonable fairness in predictions, and some other ones will generate more fair prediction, but are so complex that are almost impossible to implement.
+
+Now, let's formalize the problem. As discussed in Section \ref{sec:intro}, discrimination occurs with respect to certain features/attributes, which we will refer to as protected features, denoted by $A$. The goal is to design a model in which membership in a particular group in a protected feature does not lead to an unfair prediction. Next, let $X$ denote other observable attributes of a given record, $U$ the set of relevant latent attributes, which are not directly observed. The goal of the machine learning algorithm will be predicting $Y$. Thus, $\hat{Y}$ is the predictor which depends on all of the attributes $A$, $X$ and $U$.
+
+\subsection{Methods of Fairness}
+In this section, we briefly cover two fairness methods just so the reader would have some idea on how fairness might be achieved in ML. However, these methods are not implemented in this study. For simplicity, assume a binary classification setting of individuals.
+
+\textbf{\textit{Fairness through unawareness}}, \citet{grgic2016case}, suggests that for an algorithm to be fair, it may not explicitly use any of the protected feature $A$. This directly addresses disparate treatment and it was initially proposed as a baseline approach. Any mapping form $X$ to $Y$ that excludes $A$ would be considered an implementation of this method, making it extremely easy to implement in practice. However, this method does not even attempt to address disparate impact. This means any features in $X$ which are correlated with any of the protected features in $A$ will have an impact on the prediction. This would be fine if it is determined that non of the elements in $X$ contain discriminatory information similar to that of $A$, however this is rarely the case. This particular deficiency let to the proposal of the next method.
+
+\textbf{\textit{Individual Fairness}}, \citet{dwork2012fairness}, proposes that an algorithm is fair if it gives similar prediction to similar individuals based on a \textit{given} similarity distance metric $d(., .)$. Thus if individuals $a$ and $b$ are similar, then $\hat{Y}(X^a, A^a) \approx \hat{Y}(X^b, A^b)$. Therefore, $a$ and $b$  are first each mapped to distributions over outcomes, then the distance between the two distributions over the outcomes should be less than or equal to $d(a, b)$.
+This is more complicated to implement \cite{joseph2016rawlsian, louizos2015variational} and interpret as well, since the definition depends heavily on the similarity metric as well as how close the similar individuals' predictions must be. 
+
+Recent developments in this area are mostly focusing on causal models and counterfactuals which use graphs to capture the causalities in a model \cite{kusner2017counterfactual, zhang2018fairness, chiappa2018path, russell2017worlds}. As an example, \textbf{\textit{Counterfactual Fairness}}, \citet{kusner2017counterfactual}, proposes that to be fair, $A$ should not be a cause of $\hat{Y}$ in any individual instance. In other words, changing $A$ while holding things which are not causally dependent on $A$ constant will not change the distribution of $\hat{Y}$.
+
+\subsection{Definitions of Fairness} \label{subsec:def-of-fairness}
+Here we will introduce three definitions of fairness which we will use in this study to measure the fairness of different models. Fairness in machine learning is usually a concern when the dataset contains information about individuals and thus the task is predicting $Y$ which directly or indirectly affects individuals at some level. Now, in order to better explain different definitions of fairness and for simplicity, let's assume the following prediction task. Keep in mind that non of these definitions are limited to this particular setup.
+
+Assume a binary classification of individuals, where $Y \in {0, 1}$ and where it is beneficial for an individual to be classified as $1$. This is necessary since if being classified in one group is not preferred over the other, or classification does not in any way affect any of the individuals, there is no need to consider fairness. An example of the assumed setup can be a model which predicts whether or not a student applicant will be successful in school where the outcome is used by the admission committee to evaluate applicants. Furthermore, assume $A$ is binary feature such as gender. 
+
+\subsubsection{\textbf{False Positive and False Negative Rates}} \label{subsec:def-of-FPR} In this context, we are interested to analyze the false positive rate (FPR) and the false negative rate (FNR) across different groups in a protected class, for example males and females in gender. This is the the most basic and a classical measure which actually tells us a lot about the prediction. Intuitively, to achieve a high accuracy we want these rates to be as small as possible and then from a fairness standpoint, we want them to be close to each other across different groups in a protected class. Having a high FPR for a particular group basically means that members of that group are receiving a preferential treatment and a high FNR means the exact opposite. This distinction is vastly important and it is why we are not interested in achieving similar prediction accuracy among different groups of a protected class.
+
+
+\subsubsection{\textbf{Demographic Parity (DP)}} \label{subsec:def-of-DP} A predictor $\hat{Y}$ satisfies demographic parity if 
+
+\begin{equation} \label{eq:dp}
+P(\hat{Y} | A = 0) = P(\hat{Y} | A = 1).
+\end{equation}
+This means that changing the class membership of an individual in a protected feature, should not change the predicted outcome. As shown in Equation \ref{eq:dp}, this definition does not care whether or not the prediction itself was correct. 
+
+Here is an example. If a model predicted that a male applicant will be successful (or not), the prediction should not change if the gender of the applicant is changed to female. Or on broader terms, if there are two identical applicant in the dataset with the exception of their gender, the prediction for both individuals must be the same.
+
+An example of a model that addresses DP is proposed by \citet{zafar2017fairness}, which is done by maximizing accuracy under a fairness constraint.
+
+\subsubsection{\textbf{Equality of Opportunity (EO)}} \label{subsec:def-of-EO} A predictor $\hat{Y}$ satisfies equality of opportunity if 
+
+\begin{equation} \label{eq:eo}
+P(\hat{Y} = 1 | A = 0, Y = 1) = P(\hat{Y} = 1 | A = 1 , Y = 1).
+\end{equation}
+
+This is the same concept as DP, however it only concerns the true positive predictions. That is why EO is also known as true positive parity. Going back to our example, if a model correctly predicts a male applicant to be successful in school, changing the gender should not change the outcome. Or again similarly, if there are two identical applicants in the dataset with the different genders, who are both known to be successful (true label is $1$), must both be classified similarly. Notice that we did not say they both must be correctly classified, since that is one way to achieve EO. If they are both incorrectly classified, then they are not even considered as Equation \ref{eq:eo} is conditioned on $Y=1$. Having this condition also limits the application of this definition to supervised learning.

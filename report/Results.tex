@@ -1,0 +1,66 @@
+\section{Results} \label{sec:results}
+In any ML setup, the first measure that comes to mind is accuracy. As shown in Figure \ref{fig:model-accuracy}, all models are close in accuracy. Both decision tree and random forest performed really well. RF outperformed all other models and although DT has the fifth highest accuracy, the simplicity of the model should not be ignored. Other than RF and DT, the accuracy of the models generally increase with their complexity. However, since non of the models were at any point trained on the testing set (e.g. k-fold cross validation), the accuracies are not that impressive.
+
+%Accuracy
+\begin{figure}
+	\begin{center}
+    	\centering
+        \includegraphics[scale=.65]{graphics/models-accuracy}
+        \caption{Prediction accuracy of all models in Section \ref{subsec:classification-models}.}
+        \label{fig:model-accuracy}
+     \end{center}
+\end{figure}
+
+Next, we take a look at mean FPR across the models. As it is shown in Figure \ref{fig:model-fpr}, overall we can see an increase in mean FPR in the protected features as the complexity of the models increase. Nevertheless, it is not a strong correlation. There are exceptions to this. For instance, DT, our least complex model, has the second worst FPR for country of origin.
+
+%FPR
+\begin{figure}
+	\begin{center}
+    	\centering
+        \includegraphics[scale=.65]{graphics/models-fpr}
+        \caption{Mean false positive rate of protected features of all models in Section \ref{subsec:classification-models}}
+        \label{fig:model-fpr}
+     \end{center}
+\end{figure}
+
+Moving on to the mean FNR, as it is shown in Figure \ref{fig:model-fnr}, it seems that the models with moderate complexity actually performed worse than the most and least complex models. Nonetheless, RF had the most fair predictions with respect to FNR. Surprisingly, GNB had the worst mean FNR among the models in all protected classes. On the other hand, our top two complex models, GPC and MLP had an average FPR for race, sex and age.
+
+%FNR
+\begin{figure}
+	\begin{center}
+    	\centering
+        \includegraphics[scale=.65]{graphics/models-fnr}
+        \caption{Mean false negative rate of protected features of all models in Section \ref{subsec:classification-models}}
+        \label{fig:model-fnr}
+     \end{center}
+\end{figure}
+
+With respect to our other two fairness measures, DPVR in Figure \ref{fig:model-dpvr}, and EOVR in Figure \ref{fig:model-eovr}, we can clearly pick our most fair model, which is the decision tree. The fact that DT did not use any of the protected features in its tree, automatically satisfies both demographic parity and equality of opportunity. This means a violation rate of zero for all the protected features. However, this is a bit concerning given DT's FPR and FNR. Mean false positive rate of DT with respect to the country of origin was the second worst, and its FNR was on the higher end of the spectrum. This is a clear sign that satisfying DP and EO does not necessary cause fairness with respect to other measures. Not only that, it also speaks to the complexity of fairness and how hard it is to achieve.
+
+Furthermore, KNN has the worst DPVR and EOVR among all the models with respect to race, sex and country. One way of interpreting this would be the fact that changing the membership of an individual in a protected class, will most likely change the K nearest neighbors around that individual, causing the prediction to change. There are some similarities between how KNN classifies individuals and stereotyping people. This is exactly what fairness in AI is trying to prevent.
+
+%DPVR
+\begin{figure}
+	\begin{center}
+    	\centering
+        \includegraphics[scale=.65]{graphics/models-dpvr}
+        \caption{Mean demographic parity violation rate of protected features of all models in Section \ref{subsec:classification-models}}
+        \label{fig:model-dpvr}
+     \end{center}
+\end{figure}
+
+Another interesting observation here is unacceptably high mean EOVR for age as it is shown in Figure \ref{fig:model-eovr}.  Except DT which is always zero and GNB which is close to $20\%$, the violation rate for all other models exceed $40\%$ and in the case of GPC it even exceeds $60\%$. One way to explain why this is happening can be the really low rate of positive examples among the people between 18 to 29 as it was explained in Section \ref{sec:dataset}. Since $93.4\%$ of individuals in this group in the training set make less than or equal to \$50K a year, when we change the age of people in other groups to be in this range, the prediction changes. To confirm this, instead of changing the age of individuals to all other different subsets, we only changed them to be between 18 to 29 and although the mean EOVR was not as high as Figure \ref{fig:model-eovr}, it was really close, suggesting this to be the cause.
+
+%EOVR
+\begin{figure}
+	\begin{center}
+    	\centering
+        \includegraphics[scale=.65]{graphics/models-eovr}
+        \caption{Mean equality of opportunity violation rate of protected features of all models in Section \ref{subsec:classification-models}}
+        \label{fig:model-eovr}
+     \end{center}
+\end{figure}
+
+Now, going back to the trade-off between fairness and complexity in both DPVR and EOVR, if we exclude KNN, there exists an upward trend in violations and complexity. However, it is not nearly strong enough for us to confidently draw conclusions. There a too many exceptions to this trade-off which makes it hard to interpret. There are instances of simple models which are fair, and complex models that are more fair than some of the less complex ones (e.g. SVM in Figure \ref{fig:model-dpvr}).
+
+Overall, given all different measures of fairness, it is reasonable to say that there does exists a weak trade-off between fairness and complexity. However, a more detailed analysis on the subset level is needed to find stronger patterns.

@@ -1,0 +1,338 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{24}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[\protect\citeauthoryear{Angwin, Larson, Mattu, and Kirchner}{Angwin
+  et~al\mbox{.}}{2016}]%
+        {angwin2016machine}
+\bibfield{author}{\bibinfo{person}{Julia Angwin}, \bibinfo{person}{Jeff
+  Larson}, \bibinfo{person}{Surya Mattu}, {and} \bibinfo{person}{Lauren
+  Kirchner}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Machine bias: There’s software used across the
+  country to predict future criminals. and it’s biased against blacks}.
+\newblock \bibinfo{journal}{\emph{ProPublica, May}}  \bibinfo{volume}{23}
+  (\bibinfo{year}{2016}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Barocas and Selbst}{Barocas and
+  Selbst}{2016}]%
+        {barocas2016big}
+\bibfield{author}{\bibinfo{person}{Solon Barocas} {and}
+  \bibinfo{person}{Andrew~D Selbst}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Big data's disparate impact}.
+\newblock \bibinfo{journal}{\emph{Cal. L. Rev.}}  \bibinfo{volume}{104}
+  (\bibinfo{year}{2016}), \bibinfo{pages}{671}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Berk, Heidari, Jabbari, Kearns, and Roth}{Berk
+  et~al\mbox{.}}{2017}]%
+        {berk2017fairness}
+\bibfield{author}{\bibinfo{person}{Richard Berk}, \bibinfo{person}{Hoda
+  Heidari}, \bibinfo{person}{Shahin Jabbari}, \bibinfo{person}{Michael Kearns},
+  {and} \bibinfo{person}{Aaron Roth}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Fairness in criminal justice risk assessments: the
+  state of the art}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:1703.09207}}
+  (\bibinfo{year}{2017}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Brennan, Dieterich, and Ehret}{Brennan
+  et~al\mbox{.}}{2009}]%
+        {brennan2009evaluating}
+\bibfield{author}{\bibinfo{person}{Tim Brennan}, \bibinfo{person}{William
+  Dieterich}, {and} \bibinfo{person}{Beate Ehret}.}
+  \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{Evaluating the predictive validity of the COMPAS
+  risk and needs assessment system}.
+\newblock \bibinfo{journal}{\emph{Criminal Justice and Behavior}}
+  \bibinfo{volume}{36}, \bibinfo{number}{1} (\bibinfo{year}{2009}),
+  \bibinfo{pages}{21--40}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Calmon, Wei, Vinzamuri, Ramamurthy, and
+  Varshney}{Calmon et~al\mbox{.}}{2017}]%
+        {calmon2017optimized}
+\bibfield{author}{\bibinfo{person}{Flavio Calmon}, \bibinfo{person}{Dennis
+  Wei}, \bibinfo{person}{Bhanukiran Vinzamuri},
+  \bibinfo{person}{Karthikeyan~Natesan Ramamurthy}, {and}
+  \bibinfo{person}{Kush~R Varshney}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Optimized Pre-Processing for Discrimination
+  Prevention}. In \bibinfo{booktitle}{\emph{Advances in Neural Information
+  Processing Systems}}. \bibinfo{pages}{3995--4004}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Chiappa and Gillam}{Chiappa and
+  Gillam}{2018}]%
+        {chiappa2018path}
+\bibfield{author}{\bibinfo{person}{Silvia Chiappa} {and}
+  \bibinfo{person}{Thomas~PS Gillam}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Path-Specific Counterfactual Fairness}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:1802.08139}}
+  (\bibinfo{year}{2018}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Chouldechova}{Chouldechova}{2017}]%
+        {chouldechova2017fair}
+\bibfield{author}{\bibinfo{person}{Alexandra Chouldechova}.}
+  \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Fair prediction with disparate impact: A study of
+  bias in recidivism prediction instruments}.
+\newblock \bibinfo{journal}{\emph{Big data}} \bibinfo{volume}{5},
+  \bibinfo{number}{2} (\bibinfo{year}{2017}), \bibinfo{pages}{153--163}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Dheeru and Karra~Taniskidou}{Dheeru and
+  Karra~Taniskidou}{2017}]%
+        {Dua:2017}
+\bibfield{author}{\bibinfo{person}{Dua Dheeru} {and} \bibinfo{person}{Efi
+  Karra~Taniskidou}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \bibinfo{title}{{UCI} Machine Learning Repository}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{http://archive.ics.uci.edu/ml}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Dwork, Hardt, Pitassi, Reingold, and
+  Zemel}{Dwork et~al\mbox{.}}{2012}]%
+        {dwork2012fairness}
+\bibfield{author}{\bibinfo{person}{Cynthia Dwork}, \bibinfo{person}{Moritz
+  Hardt}, \bibinfo{person}{Toniann Pitassi}, \bibinfo{person}{Omer Reingold},
+  {and} \bibinfo{person}{Richard Zemel}.} \bibinfo{year}{2012}\natexlab{}.
+\newblock \showarticletitle{Fairness through awareness}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 3rd innovations in theoretical
+  computer science conference}}. ACM, \bibinfo{pages}{214--226}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Dwork, Immorlica, Kalai, and Leiserson}{Dwork
+  et~al\mbox{.}}{2017}]%
+        {dwork2017decoupled}
+\bibfield{author}{\bibinfo{person}{Cynthia Dwork}, \bibinfo{person}{Nicole
+  Immorlica}, \bibinfo{person}{Adam~Tauman Kalai}, {and} \bibinfo{person}{Max
+  Leiserson}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Decoupled classifiers for fair and efficient
+  machine learning}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:1707.06613}}
+  (\bibinfo{year}{2017}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Galindo and Tamayo}{Galindo and
+  Tamayo}{2000}]%
+        {galindo2000credit}
+\bibfield{author}{\bibinfo{person}{Jorge Galindo} {and} \bibinfo{person}{Pablo
+  Tamayo}.} \bibinfo{year}{2000}\natexlab{}.
+\newblock \showarticletitle{Credit risk assessment using statistical and
+  machine learning: basic methodology and risk modeling applications}.
+\newblock \bibinfo{journal}{\emph{Computational Economics}}
+  \bibinfo{volume}{15}, \bibinfo{number}{1-2} (\bibinfo{year}{2000}),
+  \bibinfo{pages}{107--143}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Grgic-Hlaca, Zafar, Gummadi, and
+  Weller}{Grgic-Hlaca et~al\mbox{.}}{2016}]%
+        {grgic2016case}
+\bibfield{author}{\bibinfo{person}{Nina Grgic-Hlaca},
+  \bibinfo{person}{Muhammad~Bilal Zafar}, \bibinfo{person}{Krishna~P Gummadi},
+  {and} \bibinfo{person}{Adrian Weller}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{The case for process fairness in learning: Feature
+  selection for fair decision making}. In \bibinfo{booktitle}{\emph{NIPS
+  Symposium on Machine Learning and the Law}}, Vol.~\bibinfo{volume}{1}.
+  \bibinfo{pages}{2}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Holte}{Holte}{1993}]%
+        {holte1993very}
+\bibfield{author}{\bibinfo{person}{Robert~C Holte}.}
+  \bibinfo{year}{1993}\natexlab{}.
+\newblock \showarticletitle{Very simple classification rules perform well on
+  most commonly used datasets}.
+\newblock \bibinfo{journal}{\emph{Machine learning}} \bibinfo{volume}{11},
+  \bibinfo{number}{1} (\bibinfo{year}{1993}), \bibinfo{pages}{63--90}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Huang, Chen, and Wang}{Huang
+  et~al\mbox{.}}{2007}]%
+        {huang2007credit}
+\bibfield{author}{\bibinfo{person}{Cheng-Lung Huang}, \bibinfo{person}{Mu-Chen
+  Chen}, {and} \bibinfo{person}{Chieh-Jen Wang}.}
+  \bibinfo{year}{2007}\natexlab{}.
+\newblock \showarticletitle{Credit scoring with a data mining approach based on
+  support vector machines}.
+\newblock \bibinfo{journal}{\emph{Expert systems with applications}}
+  \bibinfo{volume}{33}, \bibinfo{number}{4} (\bibinfo{year}{2007}),
+  \bibinfo{pages}{847--856}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Joseph, Kearns, Morgenstern, Neel, and
+  Roth}{Joseph et~al\mbox{.}}{2016}]%
+        {joseph2016rawlsian}
+\bibfield{author}{\bibinfo{person}{Matthew Joseph}, \bibinfo{person}{Michael
+  Kearns}, \bibinfo{person}{Jamie Morgenstern}, \bibinfo{person}{Seth Neel},
+  {and} \bibinfo{person}{Aaron Roth}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Rawlsian fairness for machine learning}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:1610.09559}}
+  (\bibinfo{year}{2016}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Kusner, Loftus, Russell, and Silva}{Kusner
+  et~al\mbox{.}}{2017}]%
+        {kusner2017counterfactual}
+\bibfield{author}{\bibinfo{person}{Matt~J Kusner}, \bibinfo{person}{Joshua
+  Loftus}, \bibinfo{person}{Chris Russell}, {and} \bibinfo{person}{Ricardo
+  Silva}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Counterfactual fairness}. In
+  \bibinfo{booktitle}{\emph{Advances in Neural Information Processing
+  Systems}}. \bibinfo{pages}{4069--4079}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Louizos, Swersky, Li, Welling, and
+  Zemel}{Louizos et~al\mbox{.}}{2015}]%
+        {louizos2015variational}
+\bibfield{author}{\bibinfo{person}{Christos Louizos}, \bibinfo{person}{Kevin
+  Swersky}, \bibinfo{person}{Yujia Li}, \bibinfo{person}{Max Welling}, {and}
+  \bibinfo{person}{Richard Zemel}.} \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{The variational fair autoencoder}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:1511.00830}}
+  (\bibinfo{year}{2015}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Pleiss, Raghavan, Wu, Kleinberg, and
+  Weinberger}{Pleiss et~al\mbox{.}}{2017}]%
+        {pleiss2017fairness}
+\bibfield{author}{\bibinfo{person}{Geoff Pleiss}, \bibinfo{person}{Manish
+  Raghavan}, \bibinfo{person}{Felix Wu}, \bibinfo{person}{Jon Kleinberg}, {and}
+  \bibinfo{person}{Kilian~Q Weinberger}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{On fairness and calibration}. In
+  \bibinfo{booktitle}{\emph{Advances in Neural Information Processing
+  Systems}}. \bibinfo{pages}{5684--5693}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Russell, Kusner, Loftus, and Silva}{Russell
+  et~al\mbox{.}}{2017}]%
+        {russell2017worlds}
+\bibfield{author}{\bibinfo{person}{Chris Russell}, \bibinfo{person}{Matt~J
+  Kusner}, \bibinfo{person}{Joshua Loftus}, {and} \bibinfo{person}{Ricardo
+  Silva}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{When worlds collide: integrating different
+  counterfactual assumptions in fairness}. In
+  \bibinfo{booktitle}{\emph{Advances in Neural Information Processing
+  Systems}}. \bibinfo{pages}{6417--6426}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Tsai and Wu}{Tsai and Wu}{2008}]%
+        {tsai2008using}
+\bibfield{author}{\bibinfo{person}{Chih-Fong Tsai} {and}
+  \bibinfo{person}{Jhen-Wei Wu}.} \bibinfo{year}{2008}\natexlab{}.
+\newblock \showarticletitle{Using neural network ensembles for bankruptcy
+  prediction and credit scoring}.
+\newblock \bibinfo{journal}{\emph{Expert systems with applications}}
+  \bibinfo{volume}{34}, \bibinfo{number}{4} (\bibinfo{year}{2008}),
+  \bibinfo{pages}{2639--2649}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Zafar, Valera, Gomez~Rodriguez, and
+  Gummadi}{Zafar et~al\mbox{.}}{2017a}]%
+        {zafar2017fairness}
+\bibfield{author}{\bibinfo{person}{Muhammad~Bilal Zafar},
+  \bibinfo{person}{Isabel Valera}, \bibinfo{person}{Manuel Gomez~Rodriguez},
+  {and} \bibinfo{person}{Krishna~P Gummadi}.} \bibinfo{year}{2017}\natexlab{a}.
+\newblock \showarticletitle{Fairness constraints: Mechanisms for fair
+  classification}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:1507.05259}}
+  (\bibinfo{year}{2017}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Zafar, Valera, Rodriguez, Gummadi, and
+  Weller}{Zafar et~al\mbox{.}}{2017b}]%
+        {zafar2017parity}
+\bibfield{author}{\bibinfo{person}{Muhammad~Bilal Zafar},
+  \bibinfo{person}{Isabel Valera}, \bibinfo{person}{Manuel Rodriguez},
+  \bibinfo{person}{Krishna Gummadi}, {and} \bibinfo{person}{Adrian Weller}.}
+  \bibinfo{year}{2017}\natexlab{b}.
+\newblock \showarticletitle{From parity to preference-based notions of fairness
+  in classification}. In \bibinfo{booktitle}{\emph{Advances in Neural
+  Information Processing Systems}}. \bibinfo{pages}{228--238}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Zemel, Wu, Swersky, Pitassi, and Dwork}{Zemel
+  et~al\mbox{.}}{2013}]%
+        {zemel2013learning}
+\bibfield{author}{\bibinfo{person}{Rich Zemel}, \bibinfo{person}{Yu Wu},
+  \bibinfo{person}{Kevin Swersky}, \bibinfo{person}{Toni Pitassi}, {and}
+  \bibinfo{person}{Cynthia Dwork}.} \bibinfo{year}{2013}\natexlab{}.
+\newblock \showarticletitle{Learning fair representations}. In
+  \bibinfo{booktitle}{\emph{International Conference on Machine Learning}}.
+  \bibinfo{pages}{325--333}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Zhang and Bareinboim}{Zhang and
+  Bareinboim}{2018}]%
+        {zhang2018fairness}
+\bibfield{author}{\bibinfo{person}{Junzhe Zhang} {and} \bibinfo{person}{Elias
+  Bareinboim}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Fairness in Decision-Making--The Causal Explanation
+  Formula}. In \bibinfo{booktitle}{\emph{Proceedings of the 32nd AAAI
+  Conference on Artificial Intelligence}}.
+\newblock
+
+
+\end{thebibliography}
