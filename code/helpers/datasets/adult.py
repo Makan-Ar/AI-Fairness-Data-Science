@@ -123,7 +123,7 @@ def print_feature_subsets_proportions(data, feature):
         subset_over_50k = len(np.where(data[subset_indices, -1] == 1)[0]) / n
         subset_less_50k = len(np.where(data[subset_indices, -1] == 0)[0]) / n
 
-        print("\t {0},{1:2.4f},{2:2.4f}".format(subset, subset_over_50k, subset_less_50k))
+        print("\t {0}\t & {1:2.3f} & {2:2.3f}".format(subset, subset_less_50k, subset_over_50k))
 
     return
 
@@ -158,11 +158,12 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
     elif type(subsets) is list:
         for sub in subsets:
             if sub not in feature_classes[feature]:
-                print('Subset "{0}" not found in the {1}'.format(sub, feature))
+                # print('Subset "{0}" not found in the {1}'.format(sub, feature))
                 return
 
     print("\n{0} subset accuracy break down".format(feature))
-
+    all_subsets_fp = []
+    all_subsets_fn = []
     for subset in subsets:
         if feature == "Age":
             subset_indices = np.where(np.logical_and(data[:, feature_index] >= subset[0],
@@ -173,29 +174,35 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, subsets=None)
 
         subset_len = len(subset_indices)
         if subset_len == 0:
-            print("\t{0} -> None exists.".format(subset))
+            # print("\t{0} -> None exists.".format(subset))
             continue
 
         subset_proportion = 100 * subset_len / n
         subset_y_true = y_true[subset_indices]
         subset_y_pred = y_pred[subset_indices]
 
-        subset_accuracy = metric.accuracy_score(subset_y_true, subset_y_pred) * 100
-        subset_precision = metric.precision_score(subset_y_true, subset_y_pred) * 100
+        # subset_accuracy = metric.accuracy_score(subset_y_true, subset_y_pred) * 100
+        # subset_precision = metric.precision_score(subset_y_true, subset_y_pred) * 100
         subset_confusion_matrix = metric.confusion_matrix(subset_y_true, subset_y_pred)
 
         if len(np.unique(subset_y_pred)) == 1:
             subset_false_negative_rate = -1
             subset_false_positive_rate = -1
+            continue
         else:
-            subset_false_negative_rate = 100 * subset_confusion_matrix[1, 0] / subset_len
-            subset_false_positive_rate = 100 * subset_confusion_matrix[0, 1] / subset_len
+            subset_false_negative_rate = subset_confusion_matrix[1, 0] / subset_len
+            subset_false_positive_rate = subset_confusion_matrix[0, 1] / subset_len
 
-        print("\t{0} -> Accuracy: {1:3.2f}% - Precision: {2:3.2f}% - FNR: {3:3.2f}% - "
-              "FPR: {4:3.2f}% - Proportion: {5:3.2f}%"
-              .format(subset, subset_accuracy, subset_precision, subset_false_negative_rate,
-                      subset_false_positive_rate, subset_proportion))
+        all_subsets_fn.append(subset_false_negative_rate)
+        all_subsets_fp.append(subset_false_positive_rate)
 
+        # print("\t{0} -> Accuracy: {1:3.2f}% - Precision: {2:3.2f}% - FNR: {3:3.2f}% - "
+        #       "FPR: {4:3.2f}% - Proportion: {5:3.2f}%"
+        #       .format(subset, subset_accuracy, subset_precision, subset_false_negative_rate,
+        #               subset_false_positive_rate, subset_proportion))
+
+    print("Average FPR:", np.mean(all_subsets_fp))
+    print("Average FNR:", np.mean(all_subsets_fn))
     return
 
 
@@ -231,7 +238,7 @@ def evaluate_demographic_parity(data, clf, feature):
         n_subset = len(subset_indices)
 
         if len(subset_indices) == 0:
-            print("\t {0} -> no instance found.".format(subset))
+            # print("\t {0} -> no instance found.".format(subset))
             continue
 
         subset_data = data[subset_indices, :]
@@ -266,7 +273,7 @@ def evaluate_demographic_parity(data, clf, feature):
                 changed_indices.add(x)
 
         all_subsets_eo.append(len(changed_indices) / n_subset)
-        print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_subset, len(changed_indices), n_subset))
+        # print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_subset, len(changed_indices), n_subset))
 
     print("Average:", np.mean(all_subsets_eo))
     return
@@ -303,7 +310,7 @@ def evaluate_equality_of_opportunity(data, clf, feature):
             subset_indices = np.where(np.logical_and(data[:, feature_index] == sub_index, data[:, -1] == 1))[0]
 
         if len(subset_indices) == 0:
-            print("\t {0} -> no instance found.".format(subset))
+            # print("\t {0} -> no instance found.".format(subset))
             continue
 
         subset_data = data[subset_indices, :]
@@ -314,7 +321,7 @@ def evaluate_equality_of_opportunity(data, clf, feature):
         n_true_positive = len(np.where(actual_preds == 1)[0])
 
         if n_true_positive == 0:
-            print("\t {0} -> no prediction of >50K income".format(subset))
+            # print("\t {0} -> no prediction of >50K income".format(subset))
             continue
 
         for diff_subset in subsets:
@@ -344,8 +351,8 @@ def evaluate_equality_of_opportunity(data, clf, feature):
                     changed_indices.add(i)
 
         all_subsets_eo.append(len(changed_indices) / n_true_positive)
-        print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_true_positive,
-                                               len(changed_indices), n_true_positive))
+        # print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_true_positive,
+        #                                        len(changed_indices), n_true_positive))
 
     print("Average:", np.mean(all_subsets_eo))
     return
