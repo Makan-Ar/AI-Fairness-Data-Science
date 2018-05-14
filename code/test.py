@@ -15,6 +15,7 @@ from sklearn import svm
 from sklearn.neural_network import MLPClassifier
 import time
 
+import helpers.datasets.statlog as statlog
 
 adult_data = adult.load('learning', encode_features=True)
 adult_data = adult.to_numpy_array(adult_data, remove_missing_values=True)
@@ -52,25 +53,34 @@ adult_data = adult_data[:, 0:-1]
 # adult.print_feature_subsets_proportions(adult_data, "Country")
 # adult.print_feature_subsets_proportions(adult_data, "Age")
 
-models = [tree.DecisionTreeClassifier(max_depth=3, criterion="entropy"),
-          RandomForestClassifier(n_estimators=50, max_features=None, max_depth=14),
-          make_pipeline(StandardScaler(), LogisticRegression(C=6.6, penalty='l1', tol=0.01)),
-          make_pipeline(StandardScaler(), GaussianNB()),
-          make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=15)),
-          make_pipeline(StandardScaler(), svm.SVC(kernel="rbf", C=100, gamma=0.001)),
-          make_pipeline(StandardScaler(), MLPClassifier(activation='tanh', epsilon=0.001, hidden_layer_sizes=(10,),
-                                                        solver='lbfgs', tol=1e-06))]
+# models = [tree.DecisionTreeClassifier(max_depth=3, criterion="entropy"),
+#           RandomForestClassifier(n_estimators=50, max_features=None, max_depth=14),
+#           make_pipeline(StandardScaler(), LogisticRegression(C=6.6, penalty='l1', tol=0.01)),
+#           make_pipeline(StandardScaler(), GaussianNB()),
+#           make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=15)),
+#           make_pipeline(StandardScaler(), svm.SVC(kernel="rbf", C=100, gamma=0.001)),
+#           make_pipeline(StandardScaler(), MLPClassifier(activation='tanh', epsilon=0.001, hidden_layer_sizes=(10,),
+#                                                         solver='lbfgs', tol=1e-06))]
+#
+# model_names = ["DT", "RF", "Logistic Regression", "GuassianNB", "KNN", "SVC", "MLP"]
+#
+# for clf_index in range(len(models)):
+#     times = []
+#     for i in range(100):
+#         clf = models[clf_index]
+#
+#         t0 = time.time()
+#         clf.fit(adult_data, adult_targets)
+#         times.append(time.time() - t0)
+#
+#     print("{0} -> {1:10.5f}".format(model_names[clf_index], np.mean(times)))
 
-model_names = ["DT", "RF", "Logistic Regression", "GuassianNB", "KNN", "SVC", "MLP"]
+r = statlog.load(encode_features=True)
 
-for clf_index in range(len(models)):
-    times = []
-    for i in range(100):
-        clf = models[clf_index]
+# print(r.shape)
+#
+# r2 = r[~pd.isnull(r).any(axis=1)].astype(float)
+#
+# print(r2.shape)
 
-        t0 = time.time()
-        clf.fit(adult_data, adult_targets)
-        times.append(time.time() - t0)
-
-    print("{0} -> {1:10.5f}".format(model_names[clf_index], np.mean(times)))
-
+print(r)

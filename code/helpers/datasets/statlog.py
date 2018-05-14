@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import sklearn.metrics as metric
 
-learning_data_path = "../datasets/Statlog/german.data.txt"
+data_path = "../datasets/Statlog/german.data.txt"
 
 feature_names = ["checking-status", "duration", "credit-history", "purpose", "credit-amount", "saving-account",
                  "present-employment-duration", "installment-income-ratio", "sex-marital-status", "other-debtor",
@@ -142,8 +142,41 @@ feature_classes = {"checking-status": ["A11", "A12", "A13", "A14"],
                    "other-installments": ["A141", "A142", "A143"],
                    "housing": ["A151", "A152", "A153"],
                    "job": ["A171", "A172", "A173", "A174"],
-                   "telephone": ["A191", "A191"],
+                   "telephone": ["A191", "A192"],
                    "foreign-worker": ["A201", "A202"]}
 
-target_classes = ["1", "2"]
+# 2 is bad credit and 1 is good. Will be encoded to 0 and 1 respectively.
+target_classes = ["2", "1"]
 
+
+def load(encode_features=False):
+    """
+    Loads Statlog German Credit dataset.
+    :param encode_features: if True, encodes all categorical features to numerical categories from 0 to number of
+                            classes, and a numpy matrix will be returned.
+    :return: panda DataFrame or numpy matrix of the German Credit dataset.
+    """
+
+    features_w_target = feature_names + ["Target"]
+
+    if not encode_features:
+        return pd.read_csv(data_path, names=features_w_target, sep=r'\s+', engine='python')
+
+    encoders = {"checking-status": lambda x: feature_classes["checking-status"].index(x) if not pd.isnull(x) else x,
+                "credit-history": lambda x: feature_classes["credit-history"].index(x) if not pd.isnull(x) else x,
+                "purpose": lambda x: feature_classes["purpose"].index(x) if not pd.isnull(x) else x,
+                "saving-account": lambda x: feature_classes["saving-account"].index(x) if not pd.isnull(x) else x,
+                "present-employment-duration": lambda x: feature_classes["present-employment-duration"].index(x) if not
+                pd.isnull(x) else x,
+                "sex-marital-status": lambda x: feature_classes["sex-marital-status"].index(x) if not pd.isnull(x)
+                else x,
+                "other-debtor": lambda x: feature_classes["other-debtor"].index(x) if not pd.isnull(x) else x,
+                "property": lambda x: feature_classes["property"].index(x) if not pd.isnull(x) else x,
+                "other-installments": lambda x: feature_classes["other-installments"].index(x) if x is not None else x,
+                "housing": lambda x: feature_classes["housing"].index(x) if x is not None else x,
+                "job": lambda x: feature_classes["job"].index(x) if x is not None else x,
+                "telephone": lambda x: feature_classes["telephone"].index(x) if x is not None else x,
+                "foreign-worker": lambda x: feature_classes["foreign-worker"].index(x) if x is not None else x,
+                "Target": lambda x: target_classes.index(x.replace(".", "")) if not pd.isnull(x) else x}
+
+    return pd.read_csv(data_path, names=features_w_target, converters=encoders, sep=r'\s+', engine='python').as_matrix()
