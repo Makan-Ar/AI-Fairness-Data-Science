@@ -77,10 +77,12 @@ adult_data = adult_data[:, 0:-1]
 
 r = statlog.load(encode_features=True)
 
+statlog.print_feature_subsets_proportions(r, "age")
+statlog.print_feature_subsets_proportions(r, "sex-marital-status")
 # print(r.shape)
 #
 # r2 = r[~pd.isnull(r).any(axis=1)].astype(float)
 #
 # print(r2.shape)
 
-print(r)
+# print(r)

@@ -148,6 +148,8 @@ feature_classes = {"checking-status": ["A11", "A12", "A13", "A14"],
 # 2 is bad credit and 1 is good. Will be encoded to 0 and 1 respectively.
 target_classes = ["2", "1"]
 
+age_subsets = [(0, 17), (18, 29), (30, 39), (40, 49), (50, 59), (60, 69), (70, 200)]
+
 
 def load(encode_features=False):
     """
@@ -180,3 +182,40 @@ def load(encode_features=False):
                 "Target": lambda x: target_classes.index(x.replace(".", "")) if not pd.isnull(x) else x}
 
     return pd.read_csv(data_path, names=features_w_target, converters=encoders, sep=r'\s+', engine='python').as_matrix()
+
+
+def print_feature_subsets_proportions(data, feature):
+    if feature not in feature_names:
+        print("Feature not found.")
+        return
+
+    feature_index = feature_names.index(feature)
+    n = data.shape[0]
+
+    # make sure subsets exists
+    if feature == "age":
+        subsets = age_subsets
+    else:
+        subsets = feature_classes[feature]
+
+    print("\n{0} subset proportion break down".format(feature))
+
+    for subset in subsets:
+        if feature == "age":
+            subset_indices = np.where(np.logical_and(data[:, feature_index] >= subset[0],
+                                                     data[:, feature_index] <= subset[1]))[0]
+        else:
+            sub_index = feature_classes[feature].index(subset)
+            subset_indices = np.where(data[:, feature_index] == sub_index)[0]
+
+        subset_len = len(subset_indices)
+        if subset_len == 0:
+            print("\t{0} -> None exists.".format(subset))
+            continue
+
+        subset_good = len(np.where(data[subset_indices, -1] == 1)[0]) / n
+        subset_bad = len(np.where(data[subset_indices, -1] == 0)[0]) / n
+
+        print("\t {0}\t & {1:2.3f} & {2:2.3f}".format(subset, subset_good, subset_bad))
+
+    return
