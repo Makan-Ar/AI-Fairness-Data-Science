@@ -1,7 +1,5 @@
 import numpy as np
 import sklearn.metrics as metric
-from helpers.datasets import adult
-from helpers.datasets import statlog
 
 age_subsets = [(0, 17), (18, 29), (30, 39), (40, 49), (50, 59), (60, 69), (70, 200)]
 

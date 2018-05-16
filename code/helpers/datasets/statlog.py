@@ -181,7 +181,8 @@ def load(encode_features=False):
                 "foreign-worker": lambda x: feature_classes["foreign-worker"].index(x) if x is not None else x,
                 "Target": lambda x: target_classes.index(x.replace(".", "")) if not pd.isnull(x) else x}
 
-    return pd.read_csv(data_path, names=features_w_target, converters=encoders, sep=r'\s+', engine='python').as_matrix()
+    dataset = pd.read_csv(data_path, names=features_w_target, converters=encoders, sep=r'\s+', engine='python')
+    return dataset.as_matrix().astype(float)
 
 
 def print_feature_subsets_proportions(data, feature):

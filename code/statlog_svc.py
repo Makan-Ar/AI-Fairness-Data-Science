@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn import svm
-import helpers.datasets.statlog as statlog
+from helpers.datasets import statlog
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
@@ -30,9 +30,9 @@ c = clf.named_steps.gridsearchcv.best_params_
 print(c)
 
 
-# Training the classifier
-clf = svm.SVC()
-clf = clf.fit(X_train, y_train)
+# # Training the classifier
+# clf = svm.SVC()
+# clf = clf.fit(X_train, y_train)
 
 # predicting
 test_preds = clf.predict(X_test)
