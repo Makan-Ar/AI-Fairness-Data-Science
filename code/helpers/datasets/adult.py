@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from helpers import fair_metrics
 
 learning_data_path = "../datasets/adult/adult.data.txt"
 testing_data_path = "../datasets/adult/adult.test.txt"
@@ -31,6 +32,8 @@ feature_classes = {"Workclass": ["Private", "Self-emp-not-inc", "Self-emp-inc", 
                                "Yugoslavia", "El-Salvador", "Trinadad&Tobago", "Peru", "Hong", "Holand-Netherlands"]}
 
 target_classes = ["<=50K", ">50K"]
+
+protected_features = ["Race", "Sex", "Country", "Age"]
 
 
 def load(dataset, encode_features=False, verbose=False):
@@ -86,4 +89,15 @@ def to_numpy_array(panda_data_frame, remove_missing_values=False):
     np_data = np_data[~pd.isnull(np_data).any(axis=1)].astype(float)
 
     return np_data
+
+
+def evaluate_fairness(X_test, y_test_pred, y_test, clf, dataset):
+    for p_feature in protected_features:
+        fair_metrics.get_accuracy_for_feature_subset(X_test, y_test_pred, y_test, p_feature, dataset)
+
+    for p_feature in protected_features:
+        fair_metrics.evaluate_demographic_parity(X_test, clf, p_feature, dataset)
+
+    for p_feature in protected_features:
+        fair_metrics.evaluate_equality_of_opportunity(X_test, clf, p_feature, dataset)
 

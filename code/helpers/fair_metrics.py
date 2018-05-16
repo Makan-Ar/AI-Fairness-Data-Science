@@ -1,11 +1,13 @@
 import numpy as np
 import sklearn.metrics as metric
-import helpers.datasets.adult as adult
+from helpers.datasets import adult
+from helpers.datasets import statlog
 
 age_subsets = [(0, 17), (18, 29), (30, 39), (40, 49), (50, 59), (60, 69), (70, 200)]
 
 
 def print_feature_subsets_proportions(data, feature, dataset):
+
     if feature not in dataset.feature_names:
         print("Feature not found.")
         return
@@ -271,4 +273,3 @@ def evaluate_equality_of_opportunity(data, clf, feature, dataset):
 
     print("Average:", np.mean(all_subsets_eo))
     return
-
