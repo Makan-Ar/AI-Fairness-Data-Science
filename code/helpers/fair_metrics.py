@@ -119,7 +119,7 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, dataset, subs
 
     # print("Average FPR:", np.mean(all_subsets_fp))
     # print("Average FNR:", np.mean(all_subsets_fn))
-    return np.mean(all_subsets_fp), np.mean(all_subsets_fn)
+    return np.mean(all_subsets_fp) * 100, np.mean(all_subsets_fn) * 100
 
 
 def evaluate_demographic_parity(data, clf, feature, dataset):
@@ -192,7 +192,7 @@ def evaluate_demographic_parity(data, clf, feature, dataset):
         # print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_subset, len(changed_indices), n_subset))
 
     # print("Average:", np.mean(all_subsets_eo))
-    return np.mean(all_subsets_eo)
+    return np.mean(all_subsets_eo) * 100
 
 
 def evaluate_equality_of_opportunity(data, clf, feature, dataset):
@@ -271,4 +271,4 @@ def evaluate_equality_of_opportunity(data, clf, feature, dataset):
         #                                        len(changed_indices), n_true_positive))
 
     # print("Average:", np.mean(all_subsets_eo))
-    return np.mean(all_subsets_eo)
+    return np.mean(all_subsets_eo) * 100

@@ -44,11 +44,10 @@ test_data = np.concatenate((X_test, y_test), axis=1)
 
 fair_measures = {'FPR': {}, 'FNR': {}, 'DPVR': {}, 'EOVR': {}}
 for classifier in names:
-    for p_feature in statlog.protected_features:
-        fair_measures['FPR'][p_feature] = {}
-        fair_measures['FNR'][p_feature] = {}
-        fair_measures['DPVR'][p_feature] = {}
-        fair_measures['EOVR'][p_feature] = {}
+    fair_measures['FPR'][classifier] = {}
+    fair_measures['FNR'][classifier] = {}
+    fair_measures['DPVR'][classifier] = {}
+    fair_measures['EOVR'][classifier] = {}
 
 
 for classifier in names:
@@ -61,17 +60,14 @@ for classifier in names:
 
     for p_feature in statlog.protected_features:
         fpr, fnr = fair_metrics.get_accuracy_for_feature_subset(X_test, test_pred, y_test, p_feature, statlog)
-        fair_measures['FPR'][p_feature][classifier] = fpr
-        fair_measures['FNR'][p_feature][classifier] = fnr
+        fair_measures['FPR'][classifier][p_feature] = fpr
+        fair_measures['FNR'][classifier][p_feature] = fnr
 
         dpvr = fair_metrics.evaluate_demographic_parity(test_data, clf, p_feature, statlog)
-        fair_measures['DPVR'][p_feature][classifier] = dpvr
+        fair_measures['DPVR'][classifier][p_feature] = dpvr
 
         eovr = fair_metrics.evaluate_equality_of_opportunity(test_data, clf, p_feature, statlog)
-        fair_measures['EOVR'][p_feature][classifier] = eovr
+        fair_measures['EOVR'][classifier][p_feature] = eovr
 
 with open('../results/statlog/fair-measures-1.pckl', 'wb') as f:
     pickle.dump(fair_measures, f, protocol=-1)
-
-# with open('../results/statlog/full-1.pckl', 'rb') as f:
-#     test_preds = pickle.load(f)
