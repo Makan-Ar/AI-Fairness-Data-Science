@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.gaussian_process import GaussianProcessClassifier
 
 
-names = ["DT", "RF", "GNB", "GPC", "KNN", "LR", "MLP", "SVC"]
+names = ["MLP"]
 
 classifiers = {
     "DT": tree.DecisionTreeClassifier(),
@@ -24,7 +24,7 @@ classifiers = {
     "GNB": GaussianNB(),
     "KNN": KNeighborsClassifier(),
     "LR": LogisticRegression(),
-    "MLP": MLPClassifier(),
+    "MLP": MLPClassifier(max_iter=50000),
     "SVC": svm.SVC(),
     "GPC": GaussianProcessClassifier(1.0 * RBF(1.0)),
 }
@@ -60,7 +60,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, shuffl
 y_train_grid = y_train.ravel()
 
 test_preds = {}
-for classifier in classifiers:
+for classifier in names:
     print("\n\n{}: ".format(classifier))
     if classifier in param_grids:
         clf = GridSearchCV(classifiers[classifier], param_grid=param_grids[classifier], n_jobs=6, cv=5, refit=True)

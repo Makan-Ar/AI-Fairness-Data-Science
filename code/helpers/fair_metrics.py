@@ -1,6 +1,7 @@
 import numpy as np
 import sklearn.metrics as metric
 
+# age_subsets = [(0, 17), (18, 29), (30, 39), (40, 49), (50, 59), (60, 69), (70, 200)]
 age_subsets = [(0, 17), (18, 29), (30, 39), (40, 49), (50, 59), (60, 69), (70, 200)]
 
 
@@ -76,7 +77,7 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, dataset, subs
                 # print('Subset "{0}" not found in the {1}'.format(sub, feature))
                 return
 
-    print("\n{0} subset accuracy break down".format(feature))
+    # print("\n{0} subset accuracy break down".format(feature))
     all_subsets_fp = []
     all_subsets_fn = []
     for subset in subsets:
@@ -116,9 +117,9 @@ def get_accuracy_for_feature_subset(data, y_pred, y_true, feature, dataset, subs
         #       .format(subset, subset_accuracy, subset_precision, subset_false_negative_rate,
         #               subset_false_positive_rate, subset_proportion))
 
-    print("Average FPR:", np.mean(all_subsets_fp))
-    print("Average FNR:", np.mean(all_subsets_fn))
-    return
+    # print("Average FPR:", np.mean(all_subsets_fp))
+    # print("Average FNR:", np.mean(all_subsets_fn))
+    return np.mean(all_subsets_fp), np.mean(all_subsets_fn)
 
 
 def evaluate_demographic_parity(data, clf, feature, dataset):
@@ -137,7 +138,7 @@ def evaluate_demographic_parity(data, clf, feature, dataset):
     else:
         subsets = dataset.feature_classes[feature]
 
-    print("\n{0} subset demographic parity break down".format(feature))
+    # print("\n{0} subset demographic parity break down".format(feature))
     all_subsets_eo = []
 
     for subset in subsets:
@@ -190,8 +191,8 @@ def evaluate_demographic_parity(data, clf, feature, dataset):
         all_subsets_eo.append(len(changed_indices) / n_subset)
         # print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_subset, len(changed_indices), n_subset))
 
-    print("Average:", np.mean(all_subsets_eo))
-    return
+    # print("Average:", np.mean(all_subsets_eo))
+    return np.mean(all_subsets_eo)
 
 
 def evaluate_equality_of_opportunity(data, clf, feature, dataset):
@@ -210,7 +211,7 @@ def evaluate_equality_of_opportunity(data, clf, feature, dataset):
     else:
         subsets = dataset.feature_classes[feature]
 
-    print("\n{0} subset equality of opportunity break down".format(feature))
+    # print("\n{0} subset equality of opportunity break down".format(feature))
     all_subsets_eo = []
 
     for subset in subsets:
@@ -269,5 +270,5 @@ def evaluate_equality_of_opportunity(data, clf, feature, dataset):
         # print("\t {0},{1:2.4f},{2},{3}".format(subset, len(changed_indices) / n_true_positive,
         #                                        len(changed_indices), n_true_positive))
 
-    print("Average:", np.mean(all_subsets_eo))
-    return
+    # print("Average:", np.mean(all_subsets_eo))
+    return np.mean(all_subsets_eo)
