@@ -15,7 +15,8 @@ from sklearn import svm
 from sklearn.neural_network import MLPClassifier
 import time
 
-import helpers.datasets.statlog as statlog
+from helpers.datasets import statlog
+from helpers.datasets import credit_default
 
 adult_data = adult.load('learning', encode_features=True)
 adult_data = adult.to_numpy_array(adult_data, remove_missing_values=True)
@@ -75,10 +76,10 @@ adult_data = adult_data[:, 0:-1]
 #
 #     print("{0} -> {1:10.5f}".format(model_names[clf_index], np.mean(times)))
 
-r = statlog.load(encode_features=True)
-
-statlog.print_feature_subsets_proportions(r, "age")
-statlog.print_feature_subsets_proportions(r, "sex-marital-status")
+# r = statlog.load(encode_features=True)
+#
+# statlog.print_feature_subsets_proportions(r, "age")
+# statlog.print_feature_subsets_proportions(r, "sex-marital-status")
 # print(r.shape)
 #
 # r2 = r[~pd.isnull(r).any(axis=1)].astype(float)
@@ -86,3 +87,7 @@ statlog.print_feature_subsets_proportions(r, "sex-marital-status")
 # print(r2.shape)
 
 # print(r)
+
+
+r = credit_default.load(encode_features=True)
+print(r.shape)

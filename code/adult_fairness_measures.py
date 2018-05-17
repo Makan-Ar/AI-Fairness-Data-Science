@@ -15,7 +15,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.gaussian_process import GaussianProcessClassifier
 
 # names = ["DT", "RF", "GNB", "GPC", "KNN", "LR", "MLP", "SVC"]
-names = ["DT", "RF", "GNB", "KNN", "LR", "MLP", "SVC"]
+names = ["DT", "RF", "GNB", "GPC", "KNN", "LR", "MLP", "SVC"]
 
 classifiers = {
     "DT": tree.DecisionTreeClassifier(max_depth=3, criterion="entropy"),

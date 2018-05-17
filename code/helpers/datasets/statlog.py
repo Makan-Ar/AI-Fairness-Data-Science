@@ -147,8 +147,6 @@ feature_classes = {"checking-status": ["A11", "A12", "A13", "A14"],
 # 2 is bad credit and 1 is good. Will be encoded to 0 and 1 respectively.
 target_classes = ["2", "1"]
 
-age_subsets = [(0, 17), (18, 29), (30, 39), (40, 49), (50, 59), (60, 69), (70, 200)]
-
 protected_features = ["sex-marital-status", "age"]
 
 
