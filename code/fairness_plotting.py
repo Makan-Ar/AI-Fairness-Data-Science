@@ -3,13 +3,17 @@ import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 
-# For statlog data
-result_file_to_read = '../results/statlog/fair-measures-1.pckl'
+# set to dataset name to be plotted
+dataset_name = "adult"
+
+
+result_file_to_read = '../results/{}/fair-measures-1.pckl'.format(dataset_name)
 save_plot_path = '../results/plots'
-dataset_name = "statlog"
 
 with open(result_file_to_read, 'rb') as f:
     fairness_measures = pickle.load(f)
+
+colors = {"DT": 'r', "RF": 'g', "GNB": 'y', "KNN": 'b', "LR": 'orange', "MLP": 'purple', "SVC": 'c', "GPC": 'm'}
 
 y_lables = {'FPR': 'Mean False Positive Rate', 'FNR': 'Mean False Negative Rate',
             'DPVR': 'Mean Demographic Parity\nViolation Rate', 'EOVR': 'Mean Equality of Opportunity\nViolation Rate'}
@@ -38,7 +42,7 @@ for measure in names:
 
     for i, classifier in enumerate(fairness_measures[measure]):
         m = list(fairness_measures[measure][classifier].values())
-        plt.bar(ind + i * width, m, width, label=classifier)
+        plt.bar(ind + i * width, m, width, label=classifier, color=colors[classifier])
 
     plt.xticks(ind - width / 2 + (width * num_algo) / 2, p_features)
 
