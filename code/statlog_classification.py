@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.gaussian_process import GaussianProcessClassifier
 
 
-names = ["MLP"]
+names = ["DT", "RF", "GNB", "GPC", "KNN", "LR", "MLP", "SVC"]
 
 classifiers = {
     "DT": tree.DecisionTreeClassifier(),
