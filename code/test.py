@@ -17,6 +17,7 @@ import time
 
 from helpers.datasets import statlog
 from helpers.datasets import credit_default
+from helpers.datasets import bank_marketing
 
 adult_data = adult.load('learning', encode_features=True)
 adult_data = adult.to_numpy_array(adult_data, remove_missing_values=True)
@@ -89,5 +90,8 @@ adult_data = adult_data[:, 0:-1]
 # print(r)
 
 
-r = credit_default.load(encode_features=True)
+# r = credit_default.load(encode_features=True)
+# print(r.shape)
+
+r = bank_marketing.load(encode_features=True, remove_missing_values=True, verbose=True)
 print(r.shape)

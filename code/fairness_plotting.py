@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # set to dataset name to be plotted
-dataset_name = "adult"
+dataset_name = "credit-default"
 
 
 result_file_to_read = '../results/{}/fair-measures-1.pckl'.format(dataset_name)
