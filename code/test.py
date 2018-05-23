@@ -93,5 +93,5 @@ adult_data = adult_data[:, 0:-1]
 # r = credit_default.load(encode_features=True)
 # print(r.shape)
 
-r = bank_marketing.load(encode_features=True, remove_missing_values=True, verbose=True)
+r = bank_marketing.load(encode_features=True, remove_missing_values=True, remove_duration=True, verbose=True)
 print(r.shape)

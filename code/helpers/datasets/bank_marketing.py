@@ -25,12 +25,15 @@ target_classes = ["no", "yes"]
 protected_features = ["age"]
 
 
-def load(encode_features=False, remove_missing_values=False, verbose=False):
+def load(encode_features=False, remove_missing_values=False, remove_duration=True, verbose=False):
     """
     Loads Bank Marketing dataset.
+
     :param encode_features: if True, encodes all categorical features to numerical categories from 0 to number of
                             classes, and a numpy matrix will be returned.
     :param remove_missing_values: removes examples with missing value in the dataset.
+    :param remove_duration: remove duration since this is an extremely important feature and should only be used as a
+                            benchmark.
     :param verbose: if True, prints information about how many missing values each feature had.
     :return: panda DataFrame or numpy matrix of the Bank Marketing dataset.
     """
@@ -38,8 +41,13 @@ def load(encode_features=False, remove_missing_values=False, verbose=False):
     features_w_target = feature_names + ["Target"]
 
     if not encode_features:
-        return pd.read_csv(data_path, names=features_w_target, na_values='unknown', sep=';', engine='python',
-                           verbose=verbose)
+        dataset = pd.read_csv(data_path, names=features_w_target, na_values='unknown', sep=';', engine='python',
+                              verbose=verbose)
+        if remove_duration:
+            dataset = dataset.drop(columns=["duration"])
+            return dataset
+
+        return dataset
 
     encoders = {"job": lambda x: feature_classes["job"].index(x) if not pd.isnull(x) else x,
                 "marital": lambda x: feature_classes["marital"].index(x) if not pd.isnull(x) else x,
@@ -55,6 +63,9 @@ def load(encode_features=False, remove_missing_values=False, verbose=False):
 
     dataset = pd.read_csv(data_path, names=features_w_target, na_values='unknown', converters=encoders, sep=';',
                           engine='python', verbose=verbose)
+
+    if remove_duration:
+        dataset = dataset.drop(columns=["duration"])
 
     np_data = dataset.as_matrix()
 
