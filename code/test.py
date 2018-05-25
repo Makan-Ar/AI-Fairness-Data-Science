@@ -19,12 +19,12 @@ from helpers.datasets import statlog
 from helpers.datasets import credit_default
 from helpers.datasets import bank_marketing
 
-adult_data = adult.load('learning', encode_features=True)
-adult_data = adult.to_numpy_array(adult_data, remove_missing_values=True)
-
-# Separating to target and features
-adult_targets = adult_data[:, -1]
-adult_data = adult_data[:, 0:-1]
+# adult_data = adult.load('learning', encode_features=True)
+# adult_data = adult.to_numpy_array(adult_data, remove_missing_values=True)
+#
+# # Separating to target and features
+# adult_targets = adult_data[:, -1]
+# adult_data = adult_data[:, 0:-1]
 
 # n = np.shape(adult_data)[0]
 # print(n)
