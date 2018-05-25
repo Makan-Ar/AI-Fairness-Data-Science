@@ -3,8 +3,12 @@ import pandas as pd
 
 data_path = "../datasets/bank-marketing/bank-additional-full.txt"
 
+feature_names_w_duration = ["age", "job", "marital",  "education",  "default",  "housing",  "loan",  "contact",
+                            "month", "day_of_week",  "duration",  "campaign",  "pdays",  "previous",  "poutcome",
+                            "emp.var.rate", "cons.price.idx",  "cons.conf.idx",  "euribor3m",  "nr.employed"]
+
 feature_names = ["age", "job", "marital",  "education",  "default",  "housing",  "loan",  "contact",  "month",
-                 "day_of_week",  "duration",  "campaign",  "pdays",  "previous",  "poutcome",  "emp.var.rate",
+                 "day_of_week",  "campaign",  "pdays",  "previous",  "poutcome",  "emp.var.rate",
                  "cons.price.idx",  "cons.conf.idx",  "euribor3m",  "nr.employed"]
 
 feature_classes = {"job": ["admin.", "blue-collar", "entrepreneur", "housemaid", "management", "retired",
@@ -38,7 +42,7 @@ def load(encode_features=False, remove_missing_values=False, remove_duration=Tru
     :return: panda DataFrame or numpy matrix of the Bank Marketing dataset.
     """
 
-    features_w_target = feature_names + ["Target"]
+    features_w_target = feature_names_w_duration + ["Target"]
 
     if not encode_features:
         dataset = pd.read_csv(data_path, names=features_w_target, na_values='unknown', sep=';', engine='python',
